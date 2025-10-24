@@ -1,10 +1,11 @@
 import WebSocket from 'ws';
 
-const BOT_USER_ID = '1061332176'; // This is the User ID of the chat bot
-const OAUTH_TOKEN = '29tzmjc3d8xygoxo5gfp5ku7mji6zy'; // Needs scopes user:bot, user:read:chat, user:write:chat
-const CLIENT_ID = 'wzdd61mv3a654exqth0w346zhezuw1';
+// TODO: MAKE THESE READ FROM A FILE
+const BOT_USER_ID = '1061332176'; 
+const OAUTH_TOKEN = '29tzmjc3d8xygoxo5gfp5ku7mji6zy'; 
+const CLIENT_ID = 'wzdd61mv3a654exqth0w346zhezuw1'; // TODO: how to refresh
 
-const CHAT_CHANNEL_USER_ID = '166740738'; // This is the User ID of the channel that the bot will join and listen to chat messages of
+const CHAT_CHANNEL_USER_ID = '166740738'; 
 
 const EVENTSUB_WEBSOCKET_URL = 'wss://eventsub.wss.twitch.tv/ws';
 
