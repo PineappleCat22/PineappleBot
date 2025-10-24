@@ -2,17 +2,37 @@
 import http from 'http';
 import fs from 'fs';
 
+let status = 0;
+
+//what the fuck do you mean i have to add my own sleep function
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 //THIS FUCKING SUCKS
 const server = http.createServer((req, res) => {
-    res.writeHead(200, { 'content-type': 'text/html' })
-
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.writeHead(200, { 'content-type': 'text/html' });
 
-    if (req.url == '/mid') {
-        console.log('piss!');
-        res.end('GO FUCK YOURSELF');
+    const { method, url } = req;
+
+    console.log(req.url);
+    if (method == 'POST') {
+        console.log('pet event sent');
+        res.end();
+        status = 1;
+        console.log('1');
+        sleep(5000).then(() => {
+            status = 0;
+            console.log('0')
+        });
+            
+    }
+    else if (req.url == '/petstatus') { // IS THIS HOW WE MAKE AN API??????????
+        res.end(status.toString());
+        console.log('here')
     }
     else {
         fs.createReadStream('./html' + req.url).pipe(res)
