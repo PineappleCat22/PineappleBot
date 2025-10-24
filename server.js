@@ -18,21 +18,16 @@ const server = http.createServer((req, res) => {
 
     const { method, url } = req;
 
-    console.log(req.url);
-    if (method == 'POST') {
-        console.log('pet event sent');
-        res.end();
-        status = 1;
-        console.log('1');
-        sleep(5000).then(() => {
-            status = 0;
-            console.log('0')
-        });
-            
-    }
-    else if (req.url == '/petstatus') { // IS THIS HOW WE MAKE AN API??????????
+    
+    if (req.url == '/petstatus') { // IS THIS HOW WE MAKE AN API??????????
+        if (method == 'POST') {
+            console.log('pet event sent');
+            status = 1;
+            sleep(5000).then(() => {
+                status = 0;
+            });
+        }
         res.end(status.toString());
-        console.log('here')
     }
     else {
         fs.createReadStream('./html' + req.url).pipe(res)

@@ -1,10 +1,39 @@
 <!DOCTYPE html>
 <head>
+    <script>
+        //like i give a shit. script directly in the fucking file
+        function fetchStatus() {
+            fetch('http://localhost:5000/petstatus')
+                .then(function (response) {
+                    return response.text();
+                })
+                .then(function (data) {
+                    if (data == 1) {
+                        document.getElementById("pet").style.visibility = "visible";
+                    }
+                    else {
+                        document.getElementById("pet").style.visibility = "hidden";
+                    };
+                });
+        }
+        window.addEventListener('load', function () {
+            document.getElementById("pet").style.visibility = "hidden";
+            // Your document is loaded.
+            var fetchInterval = 1000; // 5 seconds.
+
+            // Invoke the request every 5 seconds.
+            setInterval(fetchStatus, fetchInterval);
+        });
+    </script>
 </head>
-<body>
-<div style="height:250px; width:250px">
-    <b><p style="font-family:'VCR OSD Mono'; margin-bottom:0; margin-top:1px; font-size:25px">live jhona feed</p></b>
-    <img src="image.png" style="height:225px; width:250px">
-</div>
-</body>
+    <body>
+        <div style="height:250px;">
+            <b><p style="font-family:'VCR OSD Mono'; margin-bottom:0; margin-top:1px; font-size:25px">live jhona feed</p></b>
+            <div>
+                <img src="pet.gif" id="pet" style="position: fixed; top: 30px; left: 80px; right: 0; bottom: 0; z-index: 2; height:100px;">
+                <img src="image.png" style="height:225px; width:250px">
+            </div>
+            
+        </div>
+    </body>
 </html>

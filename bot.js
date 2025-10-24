@@ -1,14 +1,25 @@
-import WebSocket from 'ws';
+/* 
+THIS FUCKING SUCKS!!!!!!!!!!!!!!!!!!!!
+TODO: move all keys to a file somewhere and regenerate them
+TODO: figure out how configs work in JS
+TODO: move all code to pi server and test functionality
+TODO: test token refresh code
+*/
 
-// TODO: MAKE THESE READ FROM A FILE
+
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+import WebSocket from 'ws'; 
+
 const BOT_USER_ID = '1061332176'; 
-const OAUTH_TOKEN = '29tzmjc3d8xygoxo5gfp5ku7mji6zy'; 
-const CLIENT_ID = 'wzdd61mv3a654exqth0w346zhezuw1'; // TODO: how to refresh
+var USER_OAUTH_TOKEN = 'o6zux9zyg9fy84yrzp1klovu9bhhh3'; 
+var USER_REFRESH_TOKEN = 'wv1qgtjo3hrwg5nprf0vtc9kk7samp7l5tivjdaaalf1f86dy1'
+const CLIENT_ID = 'wzdd61mv3a654exqth0w346zhezuw1';
 const CHAT_CHANNEL_USER_ID = '166740738'; 
 
 const EVENTSUB_WEBSOCKET_URL = 'wss://eventsub.wss.twitch.tv/ws';
 
-//module toggles. these should also be in some kind of config file
+
 let server = true
 
 var websocketSessionID;
@@ -23,7 +34,7 @@ var websocketSessionID;
 
 	//help where do i put code
 	if (server) {
-		//run the server here!
+		const webserver = require('./server.js');
 	}
 })();
 
@@ -34,7 +45,7 @@ async function getAuth() {
 	let response = await fetch('https://id.twitch.tv/oauth2/validate', {
 		method: 'GET',
 		headers: {
-			'Authorization': 'OAuth ' + OAUTH_TOKEN
+			'Authorization': 'OAuth ' + USER_OAUTH_TOKEN
 		}
 	});
 
@@ -42,7 +53,22 @@ async function getAuth() {
 		let data = await response.json();
 		console.error("Token is not valid. /oauth2/validate returned status code " + response.status);
 		console.error(data);
-		process.exit(1);
+		if (response.status == 401) {
+			console.log("Refreshing token...");
+			let response = await fetch('https://id.twitch.tv/oauth2/token', {
+				method: 'POST',
+				headers: {
+					'client-id': CLIENT_ID,
+					'client-secret': '6ilpn48o72raf94zbhawli85ocoiik',
+					'grant_type': 'refresh_token',
+					'refresh_token': USER_REFRESH_TOKEN
+				}
+			});
+			data = JSON.parse(response);
+			USER_OAUTH_TOKEN = data.access_token;
+			USER_REFRESH_TOKEN = data.refrese_token;
+			//data = JSON.parse(jsonString);
+		}
 	}
 
 	console.log("Validated token.");
@@ -82,6 +108,8 @@ function handleWebSocketMessage(data) {
 					switch (data.payload.event.message.text.trim()) {
 						case '!what':
 							sendChatMessage("i am a bot developed by pineapple cat, the best programmer and most handsomest one as well")
+						case '!pet':
+							fetch('http://localhost:5000/petstatus', { method: 'POST' });
 					}
 					break;
 			}
@@ -93,7 +121,7 @@ async function sendChatMessage(chatMessage) {
 	let response = await fetch('https://api.twitch.tv/helix/chat/messages', {
 		method: 'POST',
 		headers: {
-			'Authorization': 'Bearer ' + OAUTH_TOKEN,
+			'Authorization': 'Bearer ' + USER_OAUTH_TOKEN,
 			'Client-Id': CLIENT_ID,
 			'Content-Type': 'application/json'
 		},
@@ -118,7 +146,7 @@ async function registerEventSubListeners() {
 	let response = await fetch('https://api.twitch.tv/helix/eventsub/subscriptions', {
 		method: 'POST',
 		headers: {
-			'Authorization': 'Bearer ' + OAUTH_TOKEN,
+			'Authorization': 'Bearer ' + USER_OAUTH_TOKEN,
 			'Client-Id': CLIENT_ID,
 			'Content-Type': 'application/json'
 		},
