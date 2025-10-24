@@ -1,0 +1,23 @@
+{
+  "name": "pineapplebot",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/PineappleCat22/PineappleBot#readme",
+  "bugs": {
+    "url": "https://github.com/PineappleCat22/PineappleBot/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PineappleCat22/PineappleBot.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "ws": "^8.18.3"
+  }
+}
