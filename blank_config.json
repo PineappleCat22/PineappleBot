@@ -2,6 +2,11 @@
   "BOT_ID": "",
   "CHAT_ID": "",
 
+  "ServerModule": true,
+  "MusicModule": true,
+
+  "LASTFM_USER": "",
+
   "OAUTH_TOKEN": "",
   "REFRESH_TOKEN": "",
   "CLIENT_ID": "",

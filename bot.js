@@ -16,13 +16,15 @@ var REFRESH_TOKEN = CONFIG.REFRESH_TOKEN;
 const CLIENT_ID = CONFIG.CLIENT_ID;
 const CHAT_CHANNEL_USER_ID = CONFIG.CHAT_ID; 
 const CLIENT_SECRET = CONFIG.CLIENT_SECRET;
-
+var websocketSessionID;
 const EVENTSUB_WEBSOCKET_URL = 'wss://eventsub.wss.twitch.tv/ws';
 
+const _server = CONFIG.ServerModule;
+const _spotify = CONFIG.MusicModule;
 
-let server = true
-
-var websocketSessionID;
+var webserver;
+var SongFetch;
+const LASTFM_USER = CONFIG.LASTFM_USER;
 
 // Start executing the bot from here
 (async () => {
@@ -32,16 +34,20 @@ var websocketSessionID;
 	// Start WebSocket client and register handlers
 	const websocketClient = startWebSocketClient();
 
-	//help where do i put code
-	if (server) {
-		const webserver = require('./server.js');
+	//note to self: make a module init function instead of this
+	if (_server) {
+		console.log("server module enabled. starting up...")
+		webserver = require('./server.js');
+	}
+	if (_spotify) {
+		console.log("music module enabled. starting up...")
+		SongFetch = require('./spotify.js');
 	}
 })();
 
 // WebSocket will persist the application loop until you exit the program forcefully
 
 async function getAuth() {
-	// https://dev.twitch.tv/docs/authentication/validate-tokens/#how-to-validate-a-token
 	let response = await fetch('https://id.twitch.tv/oauth2/validate', {
 		method: 'GET',
 		headers: {
@@ -114,7 +120,7 @@ function startWebSocketClient() {
 	return websocketClient;
 }
 
-function handleWebSocketMessage(data) {
+async function handleWebSocketMessage(data) {
 	switch (data.metadata.message_type) {
 		case 'session_welcome': // First message you get from the WebSocket server when connecting
 			websocketSessionID = data.payload.session.id; // Register the Session ID it gives us
@@ -132,10 +138,17 @@ function handleWebSocketMessage(data) {
 					switch (data.payload.event.message.text.trim()) {
 						case '!what':
 							sendChatMessage("i am a bot developed by pineapple cat, the best programmer and most handsomest one as well")
+							break;
 						case '!pet':
 							fetch('http://localhost:5000/petstatus', { method: 'POST' });
+							break;
+						case '!song':
+							if (_spotify) {
+								let song = await SongFetch.getSong(LASTFM_USER);
+								sendChatMessage("@" + data.payload.event.chatter_user_login + ", " + song)
+							}
+							break;
 					}
-					break;
 			}
 			break;
 	}

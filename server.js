@@ -2,7 +2,7 @@
 import http from 'http';
 import fs from 'fs';
 
-let status = 0;
+let petStatus = 0;
 
 //what the fuck do you mean i have to add my own sleep function
 function sleep(ms) {
@@ -22,12 +22,12 @@ const server = http.createServer((req, res) => {
     if (req.url == '/petstatus') { // IS THIS HOW WE MAKE AN API??????????
         if (method == 'POST') {
             console.log('pet event sent');
-            status = 1;
+            petStatus = 1;
             sleep(5000).then(() => {
-                status = 0;
+                petStatus = 0;
             });
         }
-        res.end(status.toString());
+        res.end(petStatus.toString());
     }
     else {
         fs.createReadStream('./html' + req.url).pipe(res)
