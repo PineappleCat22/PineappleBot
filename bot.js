@@ -1,9 +1,6 @@
 /* 
-THIS FUCKING SUCKS!!!!!!!!!!!!!!!!!!!!
-TODO: move all keys to a file somewhere and regenerate them
-TODO: figure out how configs work in JS
 TODO: move all code to pi server and test functionality
-TODO: test token refresh code
+TODO: figure out how to update config files with new keys
 */
 
 
@@ -11,11 +8,14 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 import WebSocket from 'ws'; 
 
-const BOT_USER_ID = '1061332176'; 
-var USER_OAUTH_TOKEN = 'o6zux9zyg9fy84yrzp1klovu9bhhh3'; 
-var USER_REFRESH_TOKEN = 'wv1qgtjo3hrwg5nprf0vtc9kk7samp7l5tivjdaaalf1f86dy1'
-const CLIENT_ID = 'wzdd61mv3a654exqth0w346zhezuw1';
-const CHAT_CHANNEL_USER_ID = '166740738'; 
+var CONFIG = require('./config.json');
+
+const BOT_USER_ID = CONFIG.BOT_ID; 
+var OAUTH_TOKEN = CONFIG.OAUTH_TOKEN; 
+var REFRESH_TOKEN = CONFIG.REFRESH_TOKEN;
+const CLIENT_ID = CONFIG.CLIENT_ID;
+const CHAT_CHANNEL_USER_ID = CONFIG.CHAT_ID; 
+const CLIENT_SECRET = CONFIG.CLIENT_SECRET;
 
 const EVENTSUB_WEBSOCKET_URL = 'wss://eventsub.wss.twitch.tv/ws';
 
@@ -45,7 +45,7 @@ async function getAuth() {
 	let response = await fetch('https://id.twitch.tv/oauth2/validate', {
 		method: 'GET',
 		headers: {
-			'Authorization': 'OAuth ' + USER_OAUTH_TOKEN
+			'Authorization': 'OAuth ' + OAUTH_TOKEN
 		}
 	});
 
@@ -55,19 +55,43 @@ async function getAuth() {
 		console.error(data);
 		if (response.status == 401) {
 			console.log("Refreshing token...");
-			let response = await fetch('https://id.twitch.tv/oauth2/token', {
+			let body_data = {
+				client_id: CLIENT_ID,
+				client_secret: CLIENT_SECRET,
+				grant_type: 'refresh_token',
+				refresh_token: REFRESH_TOKEN
+			};
+			let formBody = new URLSearchParams(body_data).toString();
+			let refresh_response = await fetch('https://id.twitch.tv/oauth2/token', {
 				method: 'POST',
 				headers: {
-					'client-id': CLIENT_ID,
-					'client-secret': '6ilpn48o72raf94zbhawli85ocoiik',
-					'grant_type': 'refresh_token',
-					'refresh_token': USER_REFRESH_TOKEN
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+				body: formBody
+			});
+			let refresh_data = await refresh_response.json();
+			if (refresh_response.status != 200) {
+				console.error("something really bad is happening. /oauth2/token returned " + refresh_response.status);
+				console.error(refresh_data);
+				process.exit(1);
+			}
+			OAUTH_TOKEN = refresh_data.access_token;
+			CONFIG.OAUTH_TOKEN == refresh_data.access_token; //theres no way its this easy right
+			REFRESH_TOKEN = refresh_data.refresh_token;
+			CONFIG.REFRESH_TOKEN == refresh_data.refresh_token;
+			response = await fetch('https://id.twitch.tv/oauth2/validate', { //get auth again
+				method: 'GET',
+				headers: {
+					'Authorization': 'OAuth ' + OAUTH_TOKEN
 				}
 			});
-			data = JSON.parse(response);
-			USER_OAUTH_TOKEN = data.access_token;
-			USER_REFRESH_TOKEN = data.refrese_token;
-			//data = JSON.parse(jsonString);
+			if (response.status != 200) {
+				let data = await response.json();
+				console.error("Token is not valid after refresh. /oauth2/validate returned status code " + response.status);
+				console.error(data);
+				console.error("god fucking damn it.");
+				process.exit(1);
+			}
 		}
 	}
 
@@ -121,7 +145,7 @@ async function sendChatMessage(chatMessage) {
 	let response = await fetch('https://api.twitch.tv/helix/chat/messages', {
 		method: 'POST',
 		headers: {
-			'Authorization': 'Bearer ' + USER_OAUTH_TOKEN,
+			'Authorization': 'Bearer ' + OAUTH_TOKEN,
 			'Client-Id': CLIENT_ID,
 			'Content-Type': 'application/json'
 		},
@@ -146,7 +170,7 @@ async function registerEventSubListeners() {
 	let response = await fetch('https://api.twitch.tv/helix/eventsub/subscriptions', {
 		method: 'POST',
 		headers: {
-			'Authorization': 'Bearer ' + USER_OAUTH_TOKEN,
+			'Authorization': 'Bearer ' + OAUTH_TOKEN,
 			'Client-Id': CLIENT_ID,
 			'Content-Type': 'application/json'
 		},
