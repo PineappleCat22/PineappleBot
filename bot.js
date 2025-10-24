@@ -4,10 +4,12 @@ import WebSocket from 'ws';
 const BOT_USER_ID = '1061332176'; 
 const OAUTH_TOKEN = '29tzmjc3d8xygoxo5gfp5ku7mji6zy'; 
 const CLIENT_ID = 'wzdd61mv3a654exqth0w346zhezuw1'; // TODO: how to refresh
-
 const CHAT_CHANNEL_USER_ID = '166740738'; 
 
 const EVENTSUB_WEBSOCKET_URL = 'wss://eventsub.wss.twitch.tv/ws';
+
+//module toggles. these should also be in some kind of config file
+let server = true
 
 var websocketSessionID;
 
@@ -18,6 +20,11 @@ var websocketSessionID;
 
 	// Start WebSocket client and register handlers
 	const websocketClient = startWebSocketClient();
+
+	//help where do i put code
+	if (server) {
+		//run the server here!
+	}
 })();
 
 // WebSocket will persist the application loop until you exit the program forcefully
@@ -71,12 +78,11 @@ function handleWebSocketMessage(data) {
 					// First, print the message to the program's console.
 					console.log(`MSG #${data.payload.event.broadcaster_user_login} <${data.payload.event.chatter_user_login}> ${data.payload.event.message.text}`);
 
-					// Then check to see if that message was "HeyGuys"
-					if (data.payload.event.message.text.trim() == "!test") {
-						// If so, send back "VoHiYo" to the chatroom
-						sendChatMessage("what have you done")
+					//shitty command programming below
+					switch (data.payload.event.message.text.trim()) {
+						case '!what':
+							sendChatMessage("i am a bot developed by pineapple cat, the best programmer and most handsomest one as well")
 					}
-
 					break;
 			}
 			break;

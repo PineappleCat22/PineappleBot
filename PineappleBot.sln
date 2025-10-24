@@ -5,9 +5,15 @@ VisualStudioVersion = 17.13.35828.75
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
 	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		bot.js = bot.js
+		html\image.png = html\image.png
+		package-lock.json = package-lock.json
+		package.json = package.json
+		html\pet.html = html\pet.html
 		secrets.txt = secrets.txt
+		server.js = server.js
 	EndProjectSection
 EndProject
 Global
