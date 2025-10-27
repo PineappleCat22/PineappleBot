@@ -14,7 +14,7 @@ const server = http.createServer((req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.writeHead(200, { 'content-type': 'text/html' });
+    
 
     const { method, url } = req;
 
@@ -27,10 +27,20 @@ const server = http.createServer((req, res) => {
                 petStatus = 0;
             });
         }
+        res.writeHead(200, { 'content-type': 'text/plain' });
         res.end(petStatus.toString());
     }
     else {
-        fs.createReadStream('./html' + req.url).pipe(res)
+        const stream = fs.createReadStream('./html' + req.url);
+
+        stream.on('error', err => {
+          console.error('File read error:', err.message);
+          res.writeHead(404, { 'Content-Type': 'text/plain' });
+          res.end('404 Not Found');
+          //note to self: figure out what a stream is.
+        });
+        res.writeHead(200, { 'content-type': 'text/html' });
+        stream.pipe(res);
     }
     //code immediately exits if you try accessing a nonexistent file.
     //soooooo dont?
