@@ -1,3 +1,4 @@
 secrets.txt
 .vs
 /config.json
+node_modules
