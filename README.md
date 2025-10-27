@@ -2,14 +2,19 @@
 
 PineappleBot is a bot I made because I am really cool and also awesome
 
+this thing is provided as-is!!!!!! just the code, no bot user. you can do that bit on your own, i believe in you!!!!!!!!!!!!!
+
 Features:
 - you can pet jhona
 - !song command that queries LastFM
 - a webserver for hosting HTML files, if thats what you need
-- coming soon: more documentation???? and spotify thing
+- spotify now playing thing
+- soon: points system
 
 
-###### todo: add more features
+<sub><sup>todo: add more features</sup></sub>
+
+<sub><sup>todo: document config better</sup></sub>
 
 ### RUNNING THE THING
 Requirements: nodejs

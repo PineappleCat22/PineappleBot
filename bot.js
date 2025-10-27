@@ -21,6 +21,7 @@ const EVENTSUB_WEBSOCKET_URL = 'wss://eventsub.wss.twitch.tv/ws';
 
 const _server = CONFIG.ServerModule;
 const _spotify = CONFIG.MusicModule;
+const _points = CONFIG.PointsModule;
 
 var webserver;
 var SongFetch;
