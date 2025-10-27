@@ -33,14 +33,22 @@ const server = http.createServer((req, res) => {
     else {
         const stream = fs.createReadStream('./html' + req.url);
 
+        stream.on('open', () => {
+            res.writeHead(200, { 'content-type': 'text/html' });
+            stream.pipe(res);
+        })
+
         stream.on('error', err => {
-          console.error('File read error:', err.message);
-          res.writeHead(404, { 'Content-Type': 'text/plain' });
-          res.end('404 Not Found');
-          //note to self: figure out what a stream is.
+            if (err.toString().includes("ENOENT")) {
+                console.error('File read error:', err.message);
+                res.writeHead(404, { 'Content-Type': 'text/plain' });
+                res.end('404: Not Found');
+                return;
+            }
+            console.error('Something weird happened:', err.message);
+            res.writeHead(500, { 'Content-Type': 'text/plain' });
+            res.end('500: INTERNAL SERVER ERROR');
         });
-        res.writeHead(200, { 'content-type': 'text/html' });
-        stream.pipe(res);
     }
     //code immediately exits if you try accessing a nonexistent file.
     //soooooo dont?
