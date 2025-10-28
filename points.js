@@ -101,6 +101,7 @@ function savePoints() {
         fs.appendFileSync('points.csv', value + "," + key + "\n");
         //fails to write first value occasionally. considering it might be due to overlapping writes, so dont spam this method.
     })
+    return "Saved points successfully!";
 }
 
 /*

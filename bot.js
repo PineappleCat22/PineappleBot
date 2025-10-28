@@ -158,6 +158,14 @@ async function handleWebSocketMessage(data) {
 									sendChatMessage("@" + data.payload.event.chatter_user_login + ", " + song)
 								}
 								break;
+							case 'points':
+								if (command.args.length == 0) {
+									sendChatMessage(Points.getPoints(data.payload.event.chatter_user_login))
+								}
+								else if (command.args.length == 1) {
+									sendChatMessage(Points.getPoints(command.args[0]))
+								}
+								break;
 						}
 
 						//new switch case for admin commands
@@ -171,6 +179,17 @@ async function handleWebSocketMessage(data) {
 										sendChatMessage(Points.addPoints(command.args[0], command.args[1]));
 									}
 									break;
+								//WARNING: UNTESTED CODE BELOW!
+								case 'delpoints':
+									if (command.args.length != 2) {
+										sendChatMessage("delpoints requires two arguments!");
+									}
+									else {
+										sendChatMessage(Points.delPoints(command.args[0], command.args[1]));
+									}
+									break;
+								case 'savepoints': // figure out how to automate this?
+									sendChatMessage(Points.savePoints());
 							}
 						}
 					}
