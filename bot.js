@@ -3,11 +3,10 @@ TODO: move all code to pi server and test functionality
 TODO: figure out how to update config files with new keys
 */
 
-
+//LOTS OF UGLY DECLARATIONS IS THERE ANY BETTER WAY TO DO THIS??????
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 import WebSocket from 'ws'; 
-
 var CONFIG = require('./config.json');
 
 const BOT_USER_ID = CONFIG.BOT_ID; 
@@ -16,15 +15,18 @@ var REFRESH_TOKEN = CONFIG.REFRESH_TOKEN;
 const CLIENT_ID = CONFIG.CLIENT_ID;
 const CHAT_CHANNEL_USER_ID = CONFIG.CHAT_ID; 
 const CLIENT_SECRET = CONFIG.CLIENT_SECRET;
+const ADMIN = CONFIG.ADMIN;
 var websocketSessionID;
 const EVENTSUB_WEBSOCKET_URL = 'wss://eventsub.wss.twitch.tv/ws';
 
 const _server = CONFIG.ServerModule;
 const _spotify = CONFIG.MusicModule;
 const _points = CONFIG.PointsModule;
+const _verbose = CONFIG.Verbose;
 
 var webserver;
 var SongFetch;
+var Points
 const LASTFM_USER = CONFIG.LASTFM_USER;
 
 // Start executing the bot from here
@@ -37,12 +39,17 @@ const LASTFM_USER = CONFIG.LASTFM_USER;
 
 	//note to self: make a module init function instead of this
 	if (_server) {
-		console.log("server module enabled. starting up...")
+		console.log("Server module enabled.");
 		webserver = require('./server.js');
 	}
 	if (_spotify) {
-		console.log("music module enabled. starting up...")
+		console.log("Music module enabled.");
 		SongFetch = require('./spotify.js');
+	}
+	if (_points) {
+		console.log("Points module enabled.");
+		Points = require('./points.js');
+		await Points.readPoints();
 	}
 })();
 
@@ -132,27 +139,57 @@ async function handleWebSocketMessage(data) {
 		case 'notification': // An EventSub notification has occurred, such as channel.chat.message
 			switch (data.metadata.subscription_type) {
 				case 'channel.chat.message':
-					// First, print the message to the program's console.
 					console.log(`MSG #${data.payload.event.broadcaster_user_login} <${data.payload.event.chatter_user_login}> ${data.payload.event.message.text}`);
 
-					//shitty command programming below
-					switch (data.payload.event.message.text.trim()) {
-						case '!what':
-							sendChatMessage("i am a bot developed by pineapple cat, the best programmer and most handsomest one as well")
-							break;
-						case '!pet':
-							fetch('http://localhost:5000/petstatus', { method: 'POST' });
-							break;
-						case '!song':
-							if (_spotify) {
-								let song = await SongFetch.getSong(LASTFM_USER);
-								sendChatMessage("@" + data.payload.event.chatter_user_login + ", " + song)
+					let command = parseCommand(data.payload.event.message.text) //just assign it so we dont have to keep fucking parsing it
+					//handle undef output from parseCommand
+					if (command != undefined) {
+						switch (command.cmd) {
+							//switch case to parse commands makes visual sense but chatgpt suggests something better. added to notes for later
+							case 'what':
+								sendChatMessage("i am a bot developed by pineapple cat, the best programmer and most handsomest one as well")
+								break;
+							case 'pet':
+								fetch('http://localhost:5000/petstatus', { method: 'POST' });
+								break;
+							case 'song':
+								if (_spotify) {
+									let song = await SongFetch.getSong(LASTFM_USER);
+									sendChatMessage("@" + data.payload.event.chatter_user_login + ", " + song)
+								}
+								break;
+						}
+
+						//new switch case for admin commands
+						if (data.payload.event.chatter_user_login == ADMIN) {
+							switch (command.cmd) {
+								case 'addpoints':
+									if (command.args.length != 2) {
+										sendChatMessage("addpoints requires two arguments!");
+									}
+									else {
+										sendChatMessage(Points.addPoints(command.args[0], command.args[1]));
+									}
+									break;
 							}
-							break;
+						}
 					}
 			}
 			break;
 	}
+}
+
+function parseCommand(text, prefix = '!') {
+	if (!text.startsWith(prefix)) return;
+	// split into tokens preserving quoted substrings
+	const regex = /[^\s"]+|"([^"]*)"/g;
+	const tokens = [];
+	let m;
+	while ((m = regex.exec(text.slice(prefix.length)))) {
+		tokens.push(m[1] ?? m[0]); // m[1] is the quoted group if matched
+	}
+	const cmd = tokens.shift()?.toLowerCase();
+	return { cmd, args: tokens };
 }
 
 async function sendChatMessage(chatMessage) {

@@ -2,3 +2,6 @@ secrets.txt
 .vs
 /config.json
 node_modules
+temp
+points.csv
+points.bak

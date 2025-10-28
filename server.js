@@ -1,6 +1,9 @@
 //shrug
 import http from 'http';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 import fs from 'fs';
+var CONFIG = require('./config.json');
 
 let petStatus = 0;
 
@@ -21,7 +24,7 @@ const server = http.createServer((req, res) => {
     
     if (req.url == '/petstatus') { // IS THIS HOW WE MAKE AN API??????????
         if (method == 'POST') {
-            console.log('pet event sent');
+            console.log('SERVER: Pet event sent');
             petStatus = 1;
             sleep(5000).then(() => {
                 petStatus = 0;
@@ -53,6 +56,6 @@ const server = http.createServer((req, res) => {
     //code immediately exits if you try accessing a nonexistent file.
     //soooooo dont?
 })
-console.log("listening on port 5000")
+console.log("SERVER: Listening on port 5000")
 server.listen(5000);
 //dawg i have no idea if this will work on the server

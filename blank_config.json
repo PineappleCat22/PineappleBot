@@ -1,9 +1,12 @@
 {
+  "ADMIN": "",
   "BOT_ID": "",
   "CHAT_ID": "",
 
   "ServerModule": true,
   "MusicModule": true,
+  "PointsModule": true,
+  "Verbose": false,
 
   "LASTFM_USER": "",
 
