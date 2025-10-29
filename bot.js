@@ -141,6 +141,8 @@ async function handleWebSocketMessage(data) {
 				case 'channel.chat.message':
 					console.log(`MSG #${data.payload.event.broadcaster_user_login} <${data.payload.event.chatter_user_login}> ${data.payload.event.message.text}`);
 
+					Points.addPoints(data.payload.event.chatter_user_name, 10); //YOU GET POINTS!
+
 					let command = parseCommand(data.payload.event.message.text) //just assign it so we dont have to keep fucking parsing it
 					//handle undef output from parseCommand
 					if (command != undefined) {
@@ -179,7 +181,6 @@ async function handleWebSocketMessage(data) {
 										sendChatMessage(Points.addPoints(command.args[0].toLowerCase(), command.args[1]));
 									}
 									break;
-								//WARNING: UNTESTED CODE BELOW!
 								case 'delpoints':
 									if (command.args.length != 2) {
 										sendChatMessage("delpoints requires two arguments!");
