@@ -194,6 +194,8 @@ async function handleWebSocketMessage(data) {
 							}
 						}
 					}
+				case 'stream.offline':
+					//do something
 			}
 			break;
 	}
@@ -238,7 +240,7 @@ async function sendChatMessage(chatMessage) {
 
 async function registerEventSubListeners() {
 	// Register channel.chat.message
-	let response = await fetch('https://api.twitch.tv/helix/eventsub/subscriptions', {
+	let chatSub = await fetch('https://api.twitch.tv/helix/eventsub/subscriptions', {
 		method: 'POST',
 		headers: {
 			'Authorization': 'Bearer ' + OAUTH_TOKEN,
@@ -259,14 +261,47 @@ async function registerEventSubListeners() {
 		})
 	});
 
-	if (response.status != 202) {
-		let data = await response.json();
-		console.error("Failed to subscribe to channel.chat.message. API call returned status code " + response.status);
+	//Register stream.offline
+	if (chatSub.status != 202) {
+		let data = await chatSub.json();
+		console.error("Failed to subscribe to channel.chat.message. API call returned status code " + chatSub.status);
 		console.error(data);
 		process.exit(1);
 	} else {
-		const data = await response.json();
+		const data = await chatSub.json();
 		console.log(`Subscribed to channel.chat.message [${data.data[0].id}]`);
+	}
+
+	//WARNING: UNTESTED!
+	//i have a hunch theres a better way to do this. but i dont know what it is.
+	let offlineSub = await fetch('https://api.twitch.tv/helix/eventsub/subscriptions', {
+		method: 'POST',
+		headers: {
+			'Authorization': 'Bearer ' + OAUTH_TOKEN,
+			'Client-Id': CLIENT_ID,
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({
+			type: 'stream.offline',
+			version: '1',
+			condition: {
+				broadcaster_user_id: CHAT_CHANNEL_USER_ID,
+			},
+			transport: {
+				method: 'websocket',
+				session_id: websocketSessionID
+			}
+		})
+	});
+	  
+	if (offlineSub.status != 202) {
+		let data = await offlineSub.json();
+		console.error("Failed to subscribe to stream.offline. API call returned status code " + offlineSub.status);
+		console.error(data);
+		process.exit(1);
+	} else {
+		const data = await offlineSub.json();
+		console.log(`Subscribed to stream.offline [${data.data[0].id}]`);
 	}
 }
 
