@@ -36,11 +36,20 @@ function addPoints(USERNAME, POINTS) {
     if (isNaN((oldVal + POINTS))) {
         return 'Invalid number of CrustCoin!'
     }
-    PointDict.set(USERNAME, (oldVal + POINTS));
-    if (_verbose) {
-        console.log("POINTS: added points " + POINTS + " to " + USERNAME);
-        console.log("POINTS: New value: " + (oldVal + POINTS));
+    if ((oldVal + POINTS) > parseInt(9007199254740991)) {
+        if (_verbose) {
+            console.log("POINTS: Maximum points reached for " + USERNAME);
+        }
+        PointDict.set(USERNAME, parseInt(9007199254740991));
     }
+    else {
+        PointDict.set(USERNAME, (oldVal + POINTS));
+        if (_verbose) {
+            console.log("POINTS: added points " + POINTS + " to " + USERNAME);
+            console.log("POINTS: New value: " + (oldVal + POINTS));
+        }
+    }
+    //pretend nothing is wrong even if the max is reached.
     return `Added ${POINTS} CrustCoin to ${USERNAME}!`;
 }
 
@@ -96,19 +105,38 @@ async function readPoints() {
     console.log("POINTS: Data fetch success.")
 }
 
-function savePoints() {
+async function savePoints() {
     console.log("POINTS: Saving points...")
-    fs.writeFile('points.csv', "", (err) => {
-            console.error("POINTS: Error while saving points!");
-            console.error(err);
+    try {
+        await fs.promises.writeFile('points.csv', "");
+    }
+    catch (err) {
+        console.error("POINTS: Error while saving points!");
+        console.error(err.message);
+        return "Error saving points!";
+    }
+
+    let writer = fs.createWriteStream('points.csv', { flags: 'a' });
+    writer.on('error', (err) => {
+        console.error("POINTS: Error while saving points!");
+        console.error(err.message);
+        return "Error saving points!";
+    })
+    writer.on('finish', () => {
+        if (_verbose) {
+            console.log("POINTS: Finished writing points.");
+        }
     })
     PointDict.forEach(function (key, value) { //fucking foreach assigns the vars backward. fuck you!
         if (_verbose) {
             console.log("POINTS: writing: " + value + "," + key);
         }
-        fs.appendFileSync('points.csv', value + "," + key + "\n");
+        writer.write(value + "," + key + "\n");
         //fails to write first value occasionally. considering it might be due to overlapping writes, so dont spam this method.
     })
+    
+    writer.end();
+    await finished(writer);
     return "Saved points successfully!";
 }
 
