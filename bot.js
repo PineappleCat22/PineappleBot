@@ -141,7 +141,7 @@ async function handleWebSocketMessage(data) {
 				case 'channel.chat.message':
 					console.log(`MSG #${data.payload.event.broadcaster_user_login} <${data.payload.event.chatter_user_login}> ${data.payload.event.message.text}`);
 
-					Points.addPoints(data.payload.event.chatter_user_name, 10); //YOU GET POINTS!
+					console.log(Points.addPoints(data.payload.event.chatter_user_login, 10)); //YOU GET POINTS!
 
 					let command = parseCommand(data.payload.event.message.text) //just assign it so we dont have to keep fucking parsing it
 					//handle undef output from parseCommand

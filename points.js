@@ -30,7 +30,7 @@ function getPoints(USERNAME) {
 function addPoints(USERNAME, POINTS) {
     POINTS = parseInt(POINTS);
     let oldVal = parseInt(PointDict.get(USERNAME));
-    if (oldVal == undefined) {
+    if (isNaN(oldVal)) {
         oldVal = parseInt(0);
     }
     if (isNaN((oldVal + POINTS))) {
