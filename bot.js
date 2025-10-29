@@ -190,12 +190,12 @@ async function handleWebSocketMessage(data) {
 									}
 									break;
 								case 'savepoints': // run this every stream.offline event
-									console.log(await Points.savePoints());
+									sendChatMessage(await Points.savePoints());
 							}
 						}
 					}
 				case 'stream.offline':
-					//Points.savePoints();
+					await Points.savePoints();
 			}
 			break;
 	}
