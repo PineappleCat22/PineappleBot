@@ -189,13 +189,28 @@ async function handleWebSocketMessage(data) {
 										sendChatMessage(Points.delPoints(command.args[0].toLowerCase(), command.args[1]));
 									}
 									break;
-								case 'savepoints': // run this every stream.offline event
+								case 'savepoints':
 									sendChatMessage(await Points.savePoints());
 							}
 						}
 					}
 				case 'stream.offline':
 					await Points.savePoints();
+
+					/*
+					Explanation Time! What the fuck is going on here?
+					Twitch's definition of the stream.offline subscription:
+					The stream.offline subscription type sends a notification when the specified broadcaster stops a stream.
+
+					What stream.offline ACTUALLY does:
+					Sends a notification EVERY time a chat message is received while stream is offline.
+
+					Dude. What the fuck????
+					Anyway, this saves the points every time that notif fires. 
+					I WAS gonna put a process.exit in here too, but for obvious reasons that isn't happening.
+					This is fine as long as offline chat doesn't get too busy. I'll stress test it now.
+					(miraculously, no errors!)
+					*/
 			}
 			break;
 	}
