@@ -15,10 +15,10 @@ let POINTS;
 let USERNAME;
 
 function getPoints(USERNAME) {
+    if (_verbose) {
+        console.log("POINTS: Fetching points value for " + USERNAME);
+    }
     if (PointDict.get(USERNAME) == undefined) {
-        if (_verbose) {
-            console.log("POINTS: Fetching points value for " + USERNAME);
-        }
         return "User does not exist!";
     }
     else {
@@ -28,14 +28,18 @@ function getPoints(USERNAME) {
 }
 
 function addPoints(USERNAME, POINTS) {
-    let oldVal = PointDict.get(USERNAME);
+    POINTS = parseInt(POINTS);
+    let oldVal = parseInt(PointDict.get(USERNAME));
     if (oldVal == undefined) {
-        oldVal = 0;
+        oldVal = parseInt(0);
+    }
+    if (isNaN((oldVal + POINTS))) {
+        return 'Invalid number of CrustCoin!'
     }
     PointDict.set(USERNAME, (oldVal + POINTS));
     if (_verbose) {
         console.log("POINTS: added points " + POINTS + " to " + USERNAME);
-        console.log("POINTS: New value: " + (+oldVal + +POINTS));
+        console.log("POINTS: New value: " + (oldVal + POINTS));
     }
     return `Added ${POINTS} CrustCoin to ${USERNAME}!`;
 }
@@ -45,11 +49,15 @@ function delPoints(USERNAME, POINTS) {
         return "User does not exist!";
     }
     else {
-        let oldVal = PointDict.get(USERNAME);
+        POINTS = parseInt(POINTS);
+        let oldVal = parseInt(PointDict.get(USERNAME));
+        if (isNaN((oldVal - POINTS)) || (oldVal - POINTS) < parseInt(0)) {
+            return 'Invalid number of CrustCoin!'
+        }
         PointDict.set(USERNAME, (oldVal - POINTS));
         if (_verbose) {
             console.log("POINTS: Removed points " + POINTS + " from " + USERNAME);
-            console.log("POINTS: New value: " + (+oldVal - +POINTS));
+            console.log("POINTS: New value: " + (oldVal - POINTS));
         }
         return `Removed ${POINTS} CrustCoin from ${USERNAME}!`;
     }
@@ -74,8 +82,8 @@ async function readPoints() {
         })
         .on('data', row => {
             if (_verbose) {
-                console.log(`POINTS: ROW=${row[0].toString()}, ${row[1]}`)
-                PointDict.set(row[0], row[1]) // <== put data into dictionary, row object can be accessed like an array (start at 0)
+                console.log(`POINTS: ROW=${row[0].toString()}, ${parseInt(row[1])}`)
+                PointDict.set(row[0].toString(), parseInt(row[1])) // <== put data into dictionary, row object can be accessed like an array (start at 0)
             }}) 
         .on('end', rowCount => {
             if (_verbose) {

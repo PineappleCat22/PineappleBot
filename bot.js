@@ -155,7 +155,7 @@ async function handleWebSocketMessage(data) {
 							case 'song':
 								if (_spotify) {
 									let song = await SongFetch.getSong(LASTFM_USER);
-									sendChatMessage("@" + data.payload.event.chatter_user_login + ", " + song)
+									sendChatMessage("@" + data.payload.event.chatter_user_name + ", " + song)
 								}
 								break;
 							case 'points':
@@ -163,20 +163,20 @@ async function handleWebSocketMessage(data) {
 									sendChatMessage(Points.getPoints(data.payload.event.chatter_user_login))
 								}
 								else if (command.args.length == 1) {
-									sendChatMessage(Points.getPoints(command.args[0]))
+									sendChatMessage(Points.getPoints(command.args[0].toLowerCase()))
 								}
 								break;
 						}
 
 						//new switch case for admin commands
-						if (data.payload.event.chatter_user_login == ADMIN) {
+						if (data.payload.event.chatter_user_login.toLowerCase() == ADMIN) {
 							switch (command.cmd) {
 								case 'addpoints':
 									if (command.args.length != 2) {
 										sendChatMessage("addpoints requires two arguments!");
 									}
 									else {
-										sendChatMessage(Points.addPoints(command.args[0], command.args[1]));
+										sendChatMessage(Points.addPoints(command.args[0].toLowerCase(), command.args[1]));
 									}
 									break;
 								//WARNING: UNTESTED CODE BELOW!
@@ -185,10 +185,10 @@ async function handleWebSocketMessage(data) {
 										sendChatMessage("delpoints requires two arguments!");
 									}
 									else {
-										sendChatMessage(Points.delPoints(command.args[0], command.args[1]));
+										sendChatMessage(Points.delPoints(command.args[0].toLowerCase(), command.args[1]));
 									}
 									break;
-								case 'savepoints': // figure out how to automate this?
+								case 'savepoints': // run this every stream.offline event
 									sendChatMessage(Points.savePoints());
 							}
 						}
