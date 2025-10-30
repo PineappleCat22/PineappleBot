@@ -198,6 +198,7 @@ async function handleWebSocketMessage(data) {
 					break;
 				case 'stream.offline':
 					await Points.savePoints();
+					process.exit(0);
 					break;
 					/*
 					I WAS WRONG IT WORKS AND IT WAS JUST FALLING THROUGH. dont forget to break your switch cases
