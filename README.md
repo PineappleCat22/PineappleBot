@@ -16,6 +16,7 @@ to do list:
 - custom commands (simple command and response)
 - make points actually usable
 - media player
+- dev environment chat simulator???
 
 ### RUNNING THE THING
 todo
