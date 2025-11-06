@@ -20,7 +20,11 @@ to do list:
 
 ### roadmaps
 Mediashare:
+- [x] Create an html container for video + caption
+- [ ] send videos to client instance (push rq? or wss?)
+- [ ] show video with caption for duration of video
 
-[.] how do i make a checklist
-
-[x] what
+Custom Commands:
+- [ ] Make CSV parser for commands
+- [ ] parse CSV into dictionary
+- [ ] attach dict to main command parser
