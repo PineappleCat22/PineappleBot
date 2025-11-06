@@ -16,7 +16,7 @@ const CLIENT_ID = CONFIG.CLIENT_ID;
 const CHAT_CHANNEL_USER_ID = CONFIG.CHAT_ID; 
 const CLIENT_SECRET = CONFIG.CLIENT_SECRET;
 const ADMIN = CONFIG.ADMIN;
-var websocketSessionID;
+const LASTFM_USER = CONFIG.LASTFM_USER;
 const EVENTSUB_WEBSOCKET_URL = 'wss://eventsub.wss.twitch.tv/ws';
 
 const _server = CONFIG.ServerModule;
@@ -24,10 +24,11 @@ const _spotify = CONFIG.MusicModule;
 const _points = CONFIG.PointsModule;
 const _verbose = CONFIG.Verbose;
 
+var websocketSessionID;
 var webserver;
 var SongFetch;
 var Points
-const LASTFM_USER = CONFIG.LASTFM_USER;
+
 
 // Start executing the bot from here
 (async () => {

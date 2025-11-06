@@ -5,6 +5,7 @@ const require = createRequire(import.meta.url);
 import fs from 'fs';
 var CONFIG = require('./config.json');
 
+const _verbose = CONFIG.Verbose;
 let petStatus = 0;
 
 //what the fuck do you mean i have to add my own sleep function
@@ -17,7 +18,6 @@ const server = http.createServer((req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    
 
     const { method, url } = req;
 
@@ -26,11 +26,13 @@ const server = http.createServer((req, res) => {
             let body = '';
             req.on('data', function (data) {
                 body += data;
-                console.log(data);
             });
 
             req.on('end', function () {
-                console.log(body);
+                if (_verbose) {
+                    console.log("SERVER: POST data for mediaplayer recieved.");
+                    console.log(data);
+                }
                 res.end();
             });
         }
