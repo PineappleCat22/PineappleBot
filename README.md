@@ -21,6 +21,6 @@ to do list:
 ### roadmaps
 Mediashare:
 
-[.]
+[.] how do i make a checklist
 
-[x]
+[x] what
