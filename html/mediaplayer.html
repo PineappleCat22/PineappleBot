@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <head>
     <script>
-var myVideo = document.getElementById("player"); 
-const EventSource = require('eventsource');
+    var myVideo = document.getElementById("player"); 
+    const es = new EventSource('/events');
 
-const es = new EventSource('/events');
-
-es.addEventListener('event-name', function (message) {
-  console.log('message:', message)
-});
+    es.onmessage = function (event) {
+    if (event.data == '"CONNTEST"') { //yes this is the best way to do this, i promise.
+        console.log("Successfully connected to event handler.")
+    }
+    };
 /*
 function playPause() { 
   if (myVideo.paused) {

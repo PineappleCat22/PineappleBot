@@ -5,10 +5,11 @@ const require = createRequire(import.meta.url);
 import fs from 'fs';
 var CONFIG = require('./config.json');
 var SSE = require('express-sse');
-var sse = new SSE();
+var sse = new SSE({'data':'CONNTEST'});
 
 const _verbose = CONFIG.Verbose;
 let petStatus = 0;
+let data;
 
 //what the fuck do you mean i have to add my own sleep function
 function sleep(ms) {
@@ -23,8 +24,18 @@ const server = http.createServer((req, res) => {
 
     const { method, url } = req;
 
-    if (req.url == 'events') { //yo FUCK websockets and FUCK having correct headers
-        sse.init();
+    if (req.url == '/events') { //yo FUCK websockets and FUCK having correct headers
+        sse.init(req, res);
+        return;
+        /*
+        some notes:
+        SSE DOES work, any connection errors it throws seem to be fake.
+        console.log(data) appears to be returning undefined?
+        and the console log code is not working for some reason.
+        suggestions: figure out why console.log isnt working, and also enable further connection logging.
+        maybe await data before sending? i think its going out of order.
+        SSE has a limit of 6 connections per browser without HTTP/2 which im not doing. so dont open 6 media players at once.
+        */
     }
     else if (req.url == '/mediaplayer') {
         if (method == 'POST') {
@@ -38,7 +49,7 @@ const server = http.createServer((req, res) => {
                     console.log("SERVER: POST data for mediaplayer recieved.");
                     console.log(data);
                 }
-                sse.send("test");
+                sse.send("balls", "message");
                 res.end();
             });
         }
