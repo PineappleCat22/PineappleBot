@@ -28,11 +28,10 @@ const server = http.createServer((req, res) => {
         sse.init(req, res);
         return;
         /*
-        some notes:
-        SSE DOES work, any connection errors it throws seem to be fake.
-        console.log(data) appears to be returning undefined?
-        and the console log code is not working for some reason.
-        suggestions: figure out why console.log isnt working, and also enable further connection logging.
+        I CANT FINISH THIS SHIT I HAVE AN ESSAY AND TWO LABS DUE!!!
+        to do list:
+        msgs get sent but i need to parse them from string into json to handle them further.
+        turn POST requests into SSE messages and send them.
         maybe await data before sending? i think its going out of order.
         SSE has a limit of 6 connections per browser without HTTP/2 which im not doing. so dont open 6 media players at once.
         */
