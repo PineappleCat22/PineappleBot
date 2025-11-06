@@ -4,6 +4,8 @@ import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 import fs from 'fs';
 var CONFIG = require('./config.json');
+var SSE = require('express-sse');
+var sse = new SSE();
 
 const _verbose = CONFIG.Verbose;
 let petStatus = 0;
@@ -21,7 +23,10 @@ const server = http.createServer((req, res) => {
 
     const { method, url } = req;
 
-    if (req.url == '/mediaplayer') {
+    if (req.url == 'events') { //yo FUCK websockets and FUCK having correct headers
+        sse.init();
+    }
+    else if (req.url == '/mediaplayer') {
         if (method == 'POST') {
             let body = '';
             req.on('data', function (data) {
@@ -33,6 +38,7 @@ const server = http.createServer((req, res) => {
                     console.log("SERVER: POST data for mediaplayer recieved.");
                     console.log(data);
                 }
+                sse.send("test");
                 res.end();
             });
         }

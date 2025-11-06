@@ -2,7 +2,14 @@
 <head>
     <script>
 var myVideo = document.getElementById("player"); 
+const EventSource = require('eventsource');
 
+const es = new EventSource('/events');
+
+es.addEventListener('event-name', function (message) {
+  console.log('message:', message)
+});
+/*
 function playPause() { 
   if (myVideo.paused) {
     myVideo.play(); 
@@ -10,7 +17,8 @@ function playPause() {
   else {
     myVideo.pause(); 
     }
-} 
+  } 
+  */
     </script>
 </head>
 <body>
