@@ -21,8 +21,21 @@ const server = http.createServer((req, res) => {
 
     const { method, url } = req;
 
-    
-    if (req.url == '/petstatus') { // IS THIS HOW WE MAKE AN API??????????
+    if (req.url == '/mediaplayer') {
+        if (method == 'POST') {
+            let body = '';
+            req.on('data', function (data) {
+                body += data;
+                console.log(data);
+            });
+
+            req.on('end', function () {
+                console.log(body);
+                res.end();
+            });
+        }
+    }
+    else if (req.url == '/petstatus') { // IS THIS HOW WE MAKE AN API??????????
         if (method == 'POST') {
             console.log('SERVER: Pet event sent');
             petStatus = 1;
