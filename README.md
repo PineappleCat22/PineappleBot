@@ -11,20 +11,15 @@ Features:
 - spotify now playing thing
 - points system
 
-to do list:
-- document the configuration and setup process
-- custom commands (simple command and response)
-- make points actually usable
-- media player
-- dev environment chat simulator???
-
-### roadmaps
-Mediashare:
-- [x] Create an html container for video + caption
-- [ ] send videos to client instance (push rq? or wss?)
-- [ ] show video with caption for duration of video
-
-Custom Commands:
-- [ ] Make CSV parser for commands
-- [ ] parse CSV into dictionary
-- [ ] attach dict to main command parser
+### roadmap
+- [ ] Mediashare
+	- [x] Create an html container for video + caption
+	- [ ] send videos to client instance (push rq? or wss?)
+	- [ ] show video with caption for duration of video
+- [ ] Custom Commands
+	- [ ] Make CSV parser for commands
+	- [ ] parse CSV into dictionary
+	- [ ] attach dict to main command parser
+- [ ] commands to use points
+- [ ] developer environment to test commands????
+- [ ] documentation
