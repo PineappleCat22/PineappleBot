@@ -17,5 +17,9 @@ to do list:
 - make points actually usable
 - media player
 
-### RUNNING THE THING
-todo
+### roadmaps
+Mediashare:
+
+[.]
+
+[x]
