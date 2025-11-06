@@ -14,6 +14,7 @@ Features:
 ### roadmap
 - [ ] Mediashare
 	- [x] Create an html container for video + caption
+	- [x] handler to receive videos via post req
 	- [ ] send videos to client instance (push rq? or wss?)
 	- [ ] show video with caption for duration of video
 - [ ] Custom Commands
