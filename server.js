@@ -5,7 +5,7 @@ const require = createRequire(import.meta.url);
 import fs from 'fs';
 var CONFIG = require('./config.json');
 var SSE = require('express-sse');
-var sse = new SSE({'data':'CONNTEST'});
+var sse = new SSE({"content": "CONN_TEST"});
 
 const _verbose = CONFIG.Verbose;
 let petStatus = 0;
@@ -46,9 +46,16 @@ const server = http.createServer((req, res) => {
             req.on('end', function () {
                 if (_verbose) {
                     console.log("SERVER: POST data for mediaplayer recieved.");
-                    console.log(data);
+                    console.log(body);
                 }
-                sse.send("balls", "message");
+                let vals = body.split("&")
+                if (vals.length != 2) {
+                    console.log("SERVER: Mediaplayer recieved improper data.")
+                    console.log(vals);
+                }
+                let media = vals[0].split("=");
+                let caption = vals[1].split("=");
+                sse.send({"content": "media", "media": media[1], "caption": caption[1]});
                 res.end();
             });
         }

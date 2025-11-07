@@ -15,8 +15,9 @@ Features:
 - [ ] Mediashare
 	- [x] Create an html container for video + caption
 	- [x] handler to receive videos via post req
-	- [ ] send videos to client instance (eventsource)
+	- [x] send videos to client instance (eventsource)
 	- [ ] show video with caption for duration of video
+	- [ ] BONUS! convert pet to use SSE
 - [ ] Custom Commands
 	- [ ] Make CSV parser for commands
 	- [ ] parse CSV into dictionary

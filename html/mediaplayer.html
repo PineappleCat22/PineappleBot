@@ -5,9 +5,15 @@
     const es = new EventSource('/events');
 
     es.onmessage = function (event) {
-    if (event.data == '"CONNTEST"') { //yes this is the best way to do this, i promise.
-        console.log("Successfully connected to event handler.")
-    }
+        const data = JSON.parse(event.data);
+        if (data.content == "CONN_TEST") { //yes this is the best way to do this, i promise.
+            console.log("Successfully connected to event handler.");
+        }
+        else if (data.content == "media") {
+            console.log("Media data recieved!");
+            console.log(data.media);
+            console.log(data.caption);
+        }
     };
 /*
 function playPause() { 
