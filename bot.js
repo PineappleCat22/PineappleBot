@@ -199,6 +199,7 @@ async function handleWebSocketMessage(data) {
 					break;
 				case 'stream.offline':
 					await Points.savePoints();
+					sendChatMessage("goodbye cruel world");
 					process.exit(0);
 					break;
 					/*
