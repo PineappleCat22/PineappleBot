@@ -31,8 +31,8 @@ const server = http.createServer((req, res) => {
     else if (req.url == '/mediaplayer') {
         if (method == 'POST') {
             let body = '';
-            req.on('data', function (data) {
-                body += data;
+            req.on('data', function (chunk) {
+                body += chunk;
             });
 
             req.on('end', function () {
@@ -40,14 +40,13 @@ const server = http.createServer((req, res) => {
                     console.log("SERVER: POST data for mediaplayer recieved.");
                     console.log(body);
                 }
-                let vals = body.split("&")
-                if (vals.length != 2) {
-                    console.log("SERVER: Mediaplayer recieved improper data.")
-                    console.log(vals);
+                let data = JSON.parse(body);
+                if (data.url == undefined) {
+                    console.log("SERVER: Received data is missing URL!")
+                    res.writeHead(400, { 'Content-Type': 'text/plain' });
+                    res.end('400: Bad Request!');
                 }
-                let media = vals[0].split("=");
-                let caption = vals[1].split("=");
-                sse.send({"content": "media", "media": media[1], "caption": caption[1]});
+                sse.send({"content": "media", "media": data.url, "caption": data.caption});
                 res.end();
             });
         }

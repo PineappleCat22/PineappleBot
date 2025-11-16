@@ -1,36 +1,61 @@
-<!DOCTYPE html>
+<html>
 <head>
+    <style>
+        .media {
+        max-width: 100%; 
+        max-height: 80%;
+        object-fit: contain'
+        }
+
+        .caption {
+        text-align: center;
+        height:20%;
+        font-family: 'VCR OSD Mono';
+        font-size:30px;
+        margin: 0;
+        color: white;
+        }
+
+        .container {
+        height:500px; 
+        width:500px; 
+        display:flex; 
+        flex-direction:column;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <video src="" id="player" class="media"></video>
+    <p id="caption" class="caption"></p>
+    </div>
     <script>
-    var myVideo = document.getElementById("player"); 
+    var player = document.getElementById("player"); 
+    console.log(player);
+    var caption = document.getElementById("caption");
+    console.log(caption)
     const es = new EventSource('/events');
 
     es.onmessage = function (event) {
         const data = JSON.parse(event.data);
         if (data.content == "CONN_TEST") { //yes this is the best way to do this, i promise.
             console.log("Successfully connected to event handler.");
-        }
+            }
         else if (data.content == "media") {
             console.log("Media data recieved!");
-            console.log(data.media);
-            console.log(data.caption);
-        }
-    };
-/*
-function playPause() { 
-  if (myVideo.paused) {
-    myVideo.play(); 
-    }
-  else {
-    myVideo.pause(); 
-    }
-  } 
-  */
+            console.log(data.media); //data url
+            player.setAttribute("src", data.media);
+            player.volume = 0.5;
+            console.log(data.caption); //caption
+            caption.innerHTML = data.caption;
+            player.play();
+            }
+        };
+
+        player.addEventListener("ended", (event) => {
+            player.setAttribute("src", "");
+            caption.innerHTML = "";
+        });
     </script>
-</head>
-<body>
-    <div style="height:500px; width:500px;">
-    <video src="https://media1.tenor.com/m/4Ro-nOcEVVMAAAAd/michaeljordan-mj.gif"></video>
-    <p></p>
-    </div>
 </body>
 </html>
