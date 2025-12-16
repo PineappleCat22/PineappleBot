@@ -4,6 +4,8 @@ PineappleBot is a bot I made because I am really cool and also awesome
 
 this thing is provided as-is!!!!!! just the code, no bot user. you can do that bit on your own, i believe in you!!!!!!!!!!!!!
 
+lowkey? the html system kinda sucks. you gotta reload all the browser elements when the bot starts up, or at least make sure its running when OBS starts. whatever. imma use it.
+
 Features:
 - you can pet jhona
 - !song command that queries LastFM
@@ -26,6 +28,7 @@ Features:
 	- [ ] parse CSV into dictionary
 	- [ ] attach dict to main command parser
 - [ ] commands to use points
+- [ ] point tiers
 - [ ] blank music widget when music is not playing
 - [ ] refetch oauth when expired
 	- [ ] and save it
