@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <script>
+    <script> /*
         //like i give a shit. script directly in the fucking file
         function fetchStatus() {
             fetch('http://localhost:5000/petstatus')
@@ -23,7 +23,7 @@
 
             // Invoke the request every 5 seconds.
             setInterval(fetchStatus, fetchInterval);
-        });
+        }); */
     </script>
 </head>
     <body>
@@ -33,7 +33,32 @@
                 <img src="pet.gif" id="pet" style="position: fixed; top: 30px; left: 80px; right: 0; bottom: 0; z-index: 2; height:100px;">
                 <img src="image.png" style="height:225px; width:250px">
             </div>
-            
+            <script>
+                window.addEventListener('load', function () {
+                    document.getElementById("pet").style.visibility = "hidden";
+                };
+
+                // oh right... js doesnt have its own sleep function... 
+                function sleep(ms) {
+                    return new Promise(resolve => setTimeout(resolve, ms));
+                };
+
+                //copied from mediaplayer. SSE code for the pet events is not implemented.
+                const es = new EventSource('/events');
+                es.onmessage = function (event) {
+                    const data = JSON.parse(event.data);
+                    if (data.content == "CONN_TEST") { //yes this is the best way to do this, i promise.
+                        console.log("Successfully connected to event handler.");
+                    }
+
+                    else if (data.content == "pet") {
+                        console.log("Pet event recieved!");
+                        document.getElementById("pet").style.visibility = "visible";
+                        sleep(5000);
+                        document.getElementById("pet").style.visibility = "hidden";
+                    }
+                };
+            </script>
         </div>
     </body>
 </html>
