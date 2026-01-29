@@ -16,7 +16,7 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-//THIS FUCKING SUCKS
+// it still shocks me that this is how you make an api. idk i guess i thought there would be a more refined way.
 const server = http.createServer((req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
@@ -51,7 +51,7 @@ const server = http.createServer((req, res) => {
             });
         }
     }
-    else if (req.url == '/petstatus') { // IS THIS HOW WE MAKE AN API??????????
+    else if (req.url == '/petstatus') { // rework this logic into SSE.
         if (method == 'POST') {
             console.log('SERVER: Pet event sent');
             petStatus = 1;
