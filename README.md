@@ -14,11 +14,19 @@ Features:
 - points system
 
 ### roadmap
+- [ ] THE BOT DOESNT ACTUALLY CHECK IF THE MODULE IS ENABLED. AAAAAAAAAAAA
+- [ ] steal more features from other bots
+	- [ ] cookies?
+	- [ ] offline/online mode
+	- [ ] fish?
+	- [ ] malt's bot is kinda cool...
+	- [ ] ranks? lifetime points?
 - [ ] Mediashare
 	- [x] Create an html container for video + caption
 	- [x] handler to receive videos via post req
 	- [x] send videos to client instance (eventsource)
 	- [x] show video with caption for duration of video
+	- [ ] the actual code that sends the video
 	- [ ] check and support for gifs/images
 	- [ ] support for remote resources (imgur images, tenor gifs, youtube videos)
 	- [ ] BONUS! convert pet to use SSE
