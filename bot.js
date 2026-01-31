@@ -153,7 +153,9 @@ async function handleWebSocketMessage(data) {
 								sendChatMessage("i am a bot developed by pineapple cat, the best programmer and most handsomest one as well")
 								break;
 							case 'pet':
-								fetch('http://localhost:5000/petstatus', { method: 'POST' });
+								if (_server) {
+									fetch('http://localhost:5000/petstatus', { method: 'POST' });
+								}
 								break;
 							case 'song':
 								if (_spotify) {
@@ -162,11 +164,13 @@ async function handleWebSocketMessage(data) {
 								}
 								break;
 							case 'points':
-								if (command.args.length == 0) {
-									sendChatMessage(Points.getPoints(data.payload.event.chatter_user_login))
-								}
-								else if (command.args.length == 1) {
-									sendChatMessage(Points.getPoints(command.args[0].toLowerCase()))
+								if (_points) {
+									if (command.args.length == 0) {
+										sendChatMessage(Points.getPoints(data.payload.event.chatter_user_login))
+									}
+									else if (command.args.length == 1) {
+										sendChatMessage(Points.getPoints(command.args[0].toLowerCase()))
+									}
 								}
 								break;
 						}
@@ -175,19 +179,23 @@ async function handleWebSocketMessage(data) {
 						if (data.payload.event.chatter_user_login.toLowerCase() == ADMIN) {
 							switch (command.cmd) {
 								case 'addpoints':
-									if (command.args.length != 2) {
-										sendChatMessage("addpoints requires two arguments!");
-									}
-									else {
-										sendChatMessage(Points.addPoints(command.args[0].toLowerCase(), command.args[1]));
+									if (_points) {
+										if (command.args.length != 2) {
+											sendChatMessage("addpoints requires two arguments!");
+										}
+										else {
+											sendChatMessage(Points.addPoints(command.args[0].toLowerCase(), command.args[1]));
+										}
 									}
 									break;
 								case 'delpoints':
-									if (command.args.length != 2) {
-										sendChatMessage("delpoints requires two arguments!");
-									}
-									else {
-										sendChatMessage(Points.delPoints(command.args[0].toLowerCase(), command.args[1]));
+									if (_points) {
+										if (command.args.length != 2) {
+											sendChatMessage("delpoints requires two arguments!");
+										}
+										else {
+											sendChatMessage(Points.delPoints(command.args[0].toLowerCase(), command.args[1]));
+										}
 									}
 									break;
 								case 'savepoints':
@@ -199,12 +207,10 @@ async function handleWebSocketMessage(data) {
 					break;
 				case 'stream.offline':
 					await Points.savePoints();
+					//enter offline mode here!
 					sendChatMessage("goodbye cruel world");
 					process.exit(0);
 					break;
-					/*
-					I WAS WRONG IT WORKS AND IT WAS JUST FALLING THROUGH. dont forget to break your switch cases
-					*/
 			}
 			break;
 	}
@@ -212,7 +218,7 @@ async function handleWebSocketMessage(data) {
 
 function parseCommand(text, prefix = '!') {
 	if (!text.startsWith(prefix)) return;
-	// split into tokens preserving quoted substrings
+	//TODO: rediscover what this does
 	const regex = /[^\s"]+|"([^"]*)"/g;
 	const tokens = [];
 	let m;
@@ -248,6 +254,8 @@ async function sendChatMessage(chatMessage) {
 }
 
 async function registerEventSubListeners() {
+	//MAX LISTENERS: 15
+	//USED LISTENERS: 2
 	// Register channel.chat.message
 	let chatSub = await fetch('https://api.twitch.tv/helix/eventsub/subscriptions', {
 		method: 'POST',
@@ -270,7 +278,6 @@ async function registerEventSubListeners() {
 		})
 	});
 
-	//Register stream.offline
 	if (chatSub.status != 202) {
 		let data = await chatSub.json();
 		console.error("Failed to subscribe to channel.chat.message. API call returned status code " + chatSub.status);
@@ -281,8 +288,8 @@ async function registerEventSubListeners() {
 		console.log(`Subscribed to channel.chat.message [${data.data[0].id}]`);
 	}
 
-	//WARNING: UNTESTED!
-	//i have a hunch theres a better way to do this. but i dont know what it is.
+	//register stream.offline
+	//wait. theres a seperate eventsub for offline and online? wtf??????
 	let offlineSub = await fetch('https://api.twitch.tv/helix/eventsub/subscriptions', {
 		method: 'POST',
 		headers: {

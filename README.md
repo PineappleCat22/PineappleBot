@@ -14,7 +14,7 @@ Features:
 - points system
 
 ### roadmap
-- [ ] THE BOT DOESNT ACTUALLY CHECK IF THE MODULE IS ENABLED. AAAAAAAAAAAA
+- [x] THE BOT DOESNT ACTUALLY CHECK IF THE MODULE IS ENABLED. AAAAAAAAAAAA
 - [ ] steal more features from other bots
 	- [ ] cookies?
 	- [ ] offline/online mode
