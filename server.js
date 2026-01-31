@@ -51,13 +51,20 @@ const server = http.createServer((req, res) => {
             });
         }
     }
+    else if (req.url == '/') {
+        res.writeHead(200, { 'content-type': 'text/plain' });
+        res.end("hello world!");
+    }
     else if (req.url == '/petstatus') { // rework this logic into SSE.
         if (method == 'POST') {
-            console.log('SERVER: Pet event sent');
-            petStatus = 1;
-            sleep(5000).then(() => {
-                petStatus = 0;
-            });
+            sse.send({ "content": "pet" });
+            if (_verbose) {
+                console.log('SERVER: Pet event sent');
+            }
+            //convert to SSE steps:
+            //send an sse event to /events here
+            //add a listener on pet.html to /events
+            //that should be it?
         }
         res.writeHead(200, { 'content-type': 'text/plain' });
         res.end(petStatus.toString());

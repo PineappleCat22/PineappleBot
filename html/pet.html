@@ -1,29 +1,58 @@
 <!DOCTYPE html>
 <head>
-    <script> /*
-        //like i give a shit. script directly in the fucking file
-        function fetchStatus() {
-            fetch('http://localhost:5000/petstatus')
-                .then(function (response) {
-                    return response.text();
-                })
-                .then(function (data) {
-                    if (data == 1) {
-                        document.getElementById("pet").style.visibility = "visible";
-                    }
-                    else {
-                        document.getElementById("pet").style.visibility = "hidden";
-                    };
-                });
-        }
+    <script>
+    /*
+               //like i give a shit. script directly in the fucking file
+               function fetchStatus() {
+                   fetch('http://localhost:5000/petstatus')
+                       .then(function (response) {
+                           return response.text();
+                       })
+                       .then(function (data) {
+                           if (data == 1) {
+                               document.getElementById("pet").style.visibility = "visible";
+                           }
+                           else {
+                               document.getElementById("pet").style.visibility = "hidden";
+                           };
+                       });
+               }
+               window.addEventListener('load', function () {
+                   document.getElementById("pet").style.visibility = "hidden";
+                   // Your document is loaded.
+                   var fetchInterval = 1000; // 5 seconds.
+
+                   // Invoke the request every 5 seconds.
+                   setInterval(fetchStatus, fetchInterval);
+               }); */
+    </script>
+    <script>
         window.addEventListener('load', function () {
             document.getElementById("pet").style.visibility = "hidden";
-            // Your document is loaded.
-            var fetchInterval = 1000; // 5 seconds.
+        });
 
-            // Invoke the request every 5 seconds.
-            setInterval(fetchStatus, fetchInterval);
-        }); */
+        // oh right... js doesnt have its own sleep function...
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        };
+
+        //why doesnt this work.
+        const es = new EventSource('/events');
+        es.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+            if (data.content == "CONN_TEST") { 
+                console.log("Successfully connected to event handler.");
+            }
+
+            else if (data.content == "pet") {
+                console.log("Pet event recieved!");
+                document.getElementById("pet").style.visibility = "visible";
+                console.log("document.getElementById(pet).style.visibility = visible");
+                sleep(5000);
+                document.getElementById("pet").style.visibility = "hidden";
+                console.log("document.getElementById(pet).style.visibility = hidden");
+            }
+        };
     </script>
 </head>
     <body>
@@ -33,32 +62,7 @@
                 <img src="pet.gif" id="pet" style="position: fixed; top: 30px; left: 80px; right: 0; bottom: 0; z-index: 2; height:100px;">
                 <img src="image.png" style="height:225px; width:250px">
             </div>
-            <script>
-                window.addEventListener('load', function () {
-                    document.getElementById("pet").style.visibility = "hidden";
-                };
-
-                // oh right... js doesnt have its own sleep function... 
-                function sleep(ms) {
-                    return new Promise(resolve => setTimeout(resolve, ms));
-                };
-
-                //copied from mediaplayer. SSE code for the pet events is not implemented.
-                const es = new EventSource('/events');
-                es.onmessage = function (event) {
-                    const data = JSON.parse(event.data);
-                    if (data.content == "CONN_TEST") { //yes this is the best way to do this, i promise.
-                        console.log("Successfully connected to event handler.");
-                    }
-
-                    else if (data.content == "pet") {
-                        console.log("Pet event recieved!");
-                        document.getElementById("pet").style.visibility = "visible";
-                        sleep(5000);
-                        document.getElementById("pet").style.visibility = "hidden";
-                    }
-                };
-            </script>
+            
         </div>
     </body>
 </html>
