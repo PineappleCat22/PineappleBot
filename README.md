@@ -26,7 +26,8 @@ Features:
 	- [x] handler to receive videos via post req
 	- [x] send videos to client instance (eventsource)
 	- [x] show video with caption for duration of video
-	- [ ] the actual code that sends the video
+	- [ ] the actual code that sends the media link and caption
+	- [ ] sanitize input!!!
 	- [ ] check and support for gifs/images
 	- [ ] support for remote resources (imgur images, tenor gifs, youtube videos)
 	- [ ] BONUS! convert pet to use SSE
