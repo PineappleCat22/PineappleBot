@@ -18,17 +18,22 @@ import { finished } from 'stream/promises';
 const fishValues = new Map()
 const lastFish = new Map()
 const fishArray = new Array()
+var fishWeight
+var fishMultiplier = 2
+
+//TODO: VERBOSE LOGGING
 
 async function loadFish(fishList) {
 	for (var i in fishList) {
-		fishValues.set(fishList[i], Math.random()*10)
+		fishValues.set(fishList[i], Math.random() * 10)
 		fishArray[i] = fishList[i]
 	}
 }
 
 async function catchFish(username) {
 	var i = Math.floor(Math.random() * fishArray.length)
-	console.log(username + " caught a " +fishArray[i] + " worth " + fishValues.get(fishArray[i]))
+	fishWeight = Math.floor(Math.random() * 1000) / 100
+	return(username + " caught a " + fishArray[i] + " weighing " + fishWeight + " lbs, worth " + Math.floor(fishValues.get(fishArray[i]) * fishWeight * fishMultiplier))
 }
-loadFish(['bass', 'carp', 'seal'])
-catchFish("anderdingus")
+
+export { loadFish, catchFish}

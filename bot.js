@@ -22,12 +22,14 @@ const EVENTSUB_WEBSOCKET_URL = 'wss://eventsub.wss.twitch.tv/ws';
 const _server = CONFIG.ServerModule;
 const _spotify = CONFIG.MusicModule;
 const _points = CONFIG.PointsModule;
+const _fish = CONFIG.FishModule;
 const _verbose = CONFIG.Verbose;
 
 var websocketSessionID;
 var webserver;
 var SongFetch;
 var Points
+var Fish;
 
 
 // Start executing the bot from here
@@ -51,6 +53,12 @@ var Points
 		console.log("Points module enabled.");
 		Points = require('./points.js');
 		await Points.readPoints();
+	}
+	if (_fish) {
+		console.log("Fishing module enabled.");
+		Fish = require('./fish.js');
+		await Fish.loadFish(['Bluegill', 'Bullhead Catfish', 'Pickerel', 'Channel Catfish', 'Lake Sturgeon', 'Longnose Gar', 'Largemouth Bass', 'Muskie', 'Northern Pike', 'Perch', 'Redfin Pickerel', 'Rock Bass', 'Smallmouth Bass', 'Sockeye Salmon', 'Steelhead Salmon']);
+		//loading the fish by hand is bad. fix this laater.
 	}
 })();
 
@@ -174,7 +182,7 @@ async function handleWebSocketMessage(data) {
 								}
 								break;
 							case 'fish':
-								sendChatMessage("still working on this")
+								sendChatMessage(await Fish.catchFish(data.payload.event.chatter_user_login));
 								break;
 						}
 
