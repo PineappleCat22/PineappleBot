@@ -26,7 +26,8 @@ Features:
 	- [x] handler to receive videos via post req
 	- [x] send videos to client instance (eventsource)
 	- [x] show video with caption for duration of video
-	- [ ] the actual code that sends the media link and caption
+	- [x] the actual code that sends the media link and caption
+		- [ ] more than one word in the caption
 	- [ ] sanitize input!!!
 	- [ ] check and support for gifs/images
 	- [ ] support for remote resources (imgur images, tenor gifs, youtube videos)

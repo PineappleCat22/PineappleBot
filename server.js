@@ -40,13 +40,11 @@ const server = http.createServer((req, res) => {
                     console.log("SERVER: POST data for mediaplayer recieved.");
                     console.log(body);
                 }
-                try {
-                    let data = JSON.parse(body);
-                }
-                catch(err) {
-                    console.log("SERVER: mediaplayer parsing failed for some reason.")
-                    console.log(err)
-                }
+
+                let data = JSON.parse(body);
+                //i cant make a try-catch block for this for some reason it breaks stuff.
+                //dont pass wrong data pls!
+
                 if (data.url == undefined) {
                     console.log("SERVER: Received data is missing URL!")
                     res.writeHead(400, { 'Content-Type': 'text/plain' });

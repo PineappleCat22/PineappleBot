@@ -177,8 +177,6 @@ async function handleWebSocketMessage(data) {
 
 						//new switch case for admin commands
 						if (data.payload.event.chatter_user_login.toLowerCase() == ADMIN) {
-							console.log("DEBUG SOMETHING ADMIN IS HAPPENING");
-							console.log(command);
 							switch (command.cmd) {
 								case 'addpoints':
 									if (_points) {
@@ -205,12 +203,64 @@ async function handleWebSocketMessage(data) {
 									break;
 
 								case 'mediashare':
-										if (command.args.length = 0 || command.args.length > 2) {
-											sendChatMessage("mediashare requires one or two arguments!");
+									if (_server) {
+										if (command.args.length == 0) {
+											sendChatMessage("Mediashare requires one or more arguments!");
 										}
 										else {
-											sendChatMessage(command.args[1]);
+											if (command.args[1] == undefined) {
+												let response = await fetch('http://localhost:5000/mediaplayer', {
+													method: 'POST',
+													body: JSON.stringify({
+														url: command.args[0],
+														caption: ""
+													})
+												})
+
+												if (response.status != 200) {
+													let data = await response.json();
+													console.error("BOT: something bad happened with mediaplayer");
+													console.error(data);
+												}
+											}
+											else {
+												if (command.args.length > 2) {
+													var mediaCaption = ""
+													for (let i = 1; i < command.args.length; i++) {
+														mediaCaption += command.args[i] + " "
+													}
+													let response = await fetch('http://localhost:5000/mediaplayer', {
+													method: 'POST',
+													body: JSON.stringify({
+														url: command.args[0],
+														caption: mediaCaption
+														})
+													})
+
+													if (response.status != 200) {
+														let data = await response.json();
+														console.error("BOT: something bad happened with mediaplayer");
+														console.error(data);
+													}
+												}
+												else {
+													let response = await fetch('http://localhost:5000/mediaplayer', {
+													method: 'POST',
+													body: JSON.stringify({
+														url: command.args[0],
+														caption: command.args[1]
+														})
+													})
+
+													if (response.status != 200) {
+														let data = await response.json();
+														console.error("BOT: something bad happened with mediaplayer");
+														console.error(data);
+													}
+												}
+											}
 										}
+									}
 									break;
 							}
 						}
