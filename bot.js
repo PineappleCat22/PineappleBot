@@ -224,39 +224,22 @@ async function handleWebSocketMessage(data) {
 												}
 											}
 											else {
-												if (command.args.length > 2) {
-													var mediaCaption = ""
-													for (let i = 1; i < command.args.length; i++) {
-														mediaCaption += command.args[i] + " "
-													}
-													let response = await fetch('http://localhost:5000/mediaplayer', {
+												var mediaCaption = ""
+												for (let i = 1; i < command.args.length; i++) {
+													mediaCaption += command.args[i] + " "
+												}
+												let response = await fetch('http://localhost:5000/mediaplayer', {
 													method: 'POST',
 													body: JSON.stringify({
 														url: command.args[0],
 														caption: mediaCaption
 														})
-													})
+												})
 
-													if (response.status != 200) {
-														let data = await response.json();
-														console.error("BOT: something bad happened with mediaplayer");
-														console.error(data);
-													}
-												}
-												else {
-													let response = await fetch('http://localhost:5000/mediaplayer', {
-													method: 'POST',
-													body: JSON.stringify({
-														url: command.args[0],
-														caption: command.args[1]
-														})
-													})
-
-													if (response.status != 200) {
-														let data = await response.json();
-														console.error("BOT: something bad happened with mediaplayer");
-														console.error(data);
-													}
+												if (response.status != 200) {
+													let data = await response.json();
+													console.error("BOT: something bad happened with mediaplayer");
+													console.error(data);
 												}
 											}
 										}

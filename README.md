@@ -27,8 +27,8 @@ Features:
 	- [x] send videos to client instance (eventsource)
 	- [x] show video with caption for duration of video
 	- [x] the actual code that sends the media link and caption
-		- [ ] more than one word in the caption
-	- [ ] sanitize input!!!
+		- [x] more than one word in the caption
+	- [ ] sanitize media input!!!
 	- [ ] check and support for gifs/images
 	- [ ] support for remote resources (imgur images, tenor gifs, youtube videos)
 	- [ ] BONUS! sse listener on pet.html
