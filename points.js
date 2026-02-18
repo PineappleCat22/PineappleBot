@@ -10,7 +10,7 @@ const _verbose = CONFIG.Verbose;
 
 let PointDict = new Map();
 
-//make all the variables before they are used (this is memory safe?)
+//make all the variables before they are used 
 let POINTS;
 let USERNAME;
 

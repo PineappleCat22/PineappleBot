@@ -173,6 +173,9 @@ async function handleWebSocketMessage(data) {
 									}
 								}
 								break;
+							case 'fish':
+								sendChatMessage("still working on this")
+								break;
 						}
 
 						//new switch case for admin commands

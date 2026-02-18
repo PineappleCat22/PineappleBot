@@ -45,5 +45,7 @@ Features:
 - [ ] blank music widget when music is not playing
 - [ ] refetch oauth when expired
 	- [ ] and save it
+- [ ] scheduled functions (data backup every hour, refetch auth)
+- [ ] activate/deactivate modules
 - [ ] developer environment to test commands????
 - [ ] documentation
