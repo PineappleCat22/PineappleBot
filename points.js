@@ -73,13 +73,24 @@ function delPoints(USERNAME, POINTS) {
 }
 
 async function readPoints() {
-    console.log("POINTS: Backing up points.csv..."); //saving is destructive so backup every read!!!!
+    if (_verbose) {
+        console.log("POINTS: Backing up points.csv..."); //saving is destructive so backup every read!!!!
+    }
+
     try {
         await fs.promises.copyFile('points.csv', 'points.bak');
     }
     catch (err) {
         console.error("POINTS: Error while backing up points.csv!");
-        console.error(err);
+        if (err.code = "ENOENT") {
+            if (_verbose) {
+                console.log("POINTS: points.csv not found. Creating empty file...")
+            }
+            fs.writeFileSync('points.csv','');
+        }
+        else {
+            console.error(err);
+        }
     }
 
     console.log("POINTS: Fetching data from points.csv...")

@@ -177,6 +177,8 @@ async function handleWebSocketMessage(data) {
 
 						//new switch case for admin commands
 						if (data.payload.event.chatter_user_login.toLowerCase() == ADMIN) {
+							console.log("DEBUG SOMETHING ADMIN IS HAPPENING");
+							console.log(command);
 							switch (command.cmd) {
 								case 'addpoints':
 									if (_points) {
@@ -201,14 +203,23 @@ async function handleWebSocketMessage(data) {
 								case 'savepoints':
 									sendChatMessage(await Points.savePoints());
 									break;
+
+								case 'mediashare':
+										if (command.args.length = 0 || command.args.length > 2) {
+											sendChatMessage("mediashare requires one or two arguments!");
+										}
+										else {
+											sendChatMessage(command.args[1]);
+										}
+									break;
 							}
 						}
 					}
 					break;
 				case 'stream.offline':
 					await Points.savePoints();
+					sendChatMessage("goodbye cruel world (ENTERING OFFLINE MODE)");
 					//enter offline mode here!
-					sendChatMessage("goodbye cruel world");
 					process.exit(0);
 					break;
 			}
@@ -248,6 +259,7 @@ async function sendChatMessage(chatMessage) {
 		let data = await response.json();
 		console.error("Failed to send chat message");
 		console.error(data);
+		console.error(chatMessage);
 	} else {
 		console.log("Sent chat message: " + chatMessage);
 	}

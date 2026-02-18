@@ -30,14 +30,13 @@ Features:
 	- [ ] sanitize input!!!
 	- [ ] check and support for gifs/images
 	- [ ] support for remote resources (imgur images, tenor gifs, youtube videos)
-	- [ ] BONUS! convert pet to use SSE
+	- [ ] BONUS! sse listener on pet.html
 	- [ ] BONUS BONUS! maybe do something for text overflow?
 - [ ] Custom Commands
 	- [ ] Make CSV parser for commands
 	- [ ] parse CSV into dictionary
 	- [ ] attach dict to main command parser
 - [ ] commands to use points
-- [ ] point tiers
 - [ ] blank music widget when music is not playing
 - [ ] refetch oauth when expired
 	- [ ] and save it
