@@ -28,7 +28,8 @@ Features:
 	- [x] show video with caption for duration of video
 	- [x] the actual code that sends the media link and caption
 		- [x] more than one word in the caption
-	- [ ] sanitize media input!!!
+	- [x] sanitize media input!!!
+	- [ ] media source blacklist
 	- [ ] check and support for gifs/images
 	- [ ] support for remote resources (imgur images, tenor gifs, youtube videos)
 	- [ ] BONUS! sse listener on pet.html
