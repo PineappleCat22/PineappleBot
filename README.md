@@ -38,7 +38,10 @@ Features:
 	- [ ] Make CSV parser for commands
 	- [ ] parse CSV into dictionary
 	- [ ] attach dict to main command parser
-- [ ] commands to use points
+- [ ] points system
+	- [ ] delete users from points dict
+	- [ ] ban/blacklist users from receiving points
+	- [ ] delete all ur points on chat ban fuck you
 - [ ] blank music widget when music is not playing
 - [ ] refetch oauth when expired
 	- [ ] and save it
