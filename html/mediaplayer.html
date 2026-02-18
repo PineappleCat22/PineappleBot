@@ -38,24 +38,24 @@
 
     es.onmessage = function (event) {
         const data = JSON.parse(event.data);
-        if (data.content == "CONN_TEST") { //yes this is the best way to do this, i promise.
+        if (data.content == "CONN_TEST") {
             console.log("Successfully connected to event handler.");
-            }
+        }
         else if (data.content == "media") {
             console.log("Media data recieved!");
             console.log(data.media); //data url
             player.setAttribute("src", data.media);
             player.volume = 0.5;
             console.log(data.caption); //caption
-            caption.innerHTML = data.caption;
+            caption.textContent = data.caption;
             player.play();
-            }
+        }
     };
 
-        player.addEventListener("ended", (event) => {
-            player.setAttribute("src", "");
-            caption.innerHTML = "";
-        });
+    player.addEventListener("ended", (event) => {
+        player.setAttribute("src", "");
+        caption.textContent = "";
+    });
     </script>
 </body>
 </html>

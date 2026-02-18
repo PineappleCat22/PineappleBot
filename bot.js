@@ -228,6 +228,8 @@ async function handleWebSocketMessage(data) {
 												for (let i = 1; i < command.args.length; i++) {
 													mediaCaption += command.args[i] + " "
 												}
+												mediaCaption = mediaCaption.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+												console.log(mediaCaption)
 												let response = await fetch('http://localhost:5000/mediaplayer', {
 													method: 'POST',
 													body: JSON.stringify({
