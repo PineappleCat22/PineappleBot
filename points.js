@@ -127,7 +127,7 @@ async function savePoints() {
         return "Error saving points!";
     }
 
-    let writer = fs.createWriteStream('points.csv', { flags: 'a' });
+    let writer = fs.createWriteStream('data/points.csv', { flags: 'a' });
     writer.on('error', (err) => {
         console.error("POINTS: Error while saving points!");
         console.error(err.message);
