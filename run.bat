@@ -1,1 +1,1 @@
-node modules/bot.js
+node bot.js

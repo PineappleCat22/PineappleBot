@@ -3,7 +3,7 @@ import http from 'http';
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 import fs from 'fs';
-var CONFIG = require('../config.json');
+var CONFIG = require('./config.json');
 var SSE = require('express-sse');
 var sse = new SSE({"content": "CONN_TEST"});
 

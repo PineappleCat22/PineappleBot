@@ -9,7 +9,7 @@
 
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-var CONFIG = require('../config.json');
+var CONFIG = require('./config.json');
 const _verbose = CONFIG.Verbose;
 import fs from 'fs';
 import csv from 'fast-csv';
@@ -32,10 +32,6 @@ async function loadFish(fishList) {
 	}
 }
 
-async function loadModifiers() {
-
-}
-
 //REMEMBER THIS IS ASYNC. WE NEED TO AWAIT IT OR THE RESPONSE IS A PROMISE{}
 async function catchFish(username) {
 	if (Math.floor(Math.random() * 5) == 4) {
@@ -51,3 +47,22 @@ async function catchFish(username) {
 }
 
 export { loadFish, catchFish}
+
+/*console.log("ok")
+const silly = new Map()
+silly.set(0, 0)
+silly.set(1, 0)
+silly.set(2, 0)
+silly.set(3, 0)
+silly.set(4, 0)
+silly.set(5, 0)
+silly.set(6, 0)
+silly.set(7, 0)
+silly.set(8, 0)
+silly.set(9, 0)
+silly.set(10, 0)
+for (let i = 0; i < 100; i++) {
+	let x = Math.floor(Math.random() * 10)
+	silly.set(x, silly.get(x) + 1)
+}
+console.log(silly)*/ // randomness test

@@ -1,6 +1,6 @@
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-var CONFIG = require('../config.json');
+var CONFIG = require('./config.json');
 const _verbose = CONFIG.Verbose;
 
 //yo idk if this needs to be async but whatever

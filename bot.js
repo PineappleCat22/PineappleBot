@@ -7,7 +7,7 @@ TODO: figure out how to update config files with new keys
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 import WebSocket from 'ws'; 
-var CONFIG = require('../config.json');
+var CONFIG = require('./config.json');
 
 const BOT_USER_ID = CONFIG.BOT_ID; 
 var OAUTH_TOKEN = CONFIG.OAUTH_TOKEN; 
@@ -43,20 +43,20 @@ var Fish;
 	//note to self: make a module init function instead of this
 	if (_server) {
 		console.log("Server module enabled.");
-		webserver = require('./server.js');
+		webserver = require('modules/server.js');
 	}
 	if (_spotify) {
 		console.log("Music module enabled.");
-		SongFetch = require('./spotify.js');
+		SongFetch = require('modules/spotify.js');
 	}
 	if (_points) {
 		console.log("Points module enabled.");
-		Points = require('./points.js');
+		Points = require('modules/points.js');
 		await Points.readPoints();
 	}
 	if (_fish) {
 		console.log("Fishing module enabled.");
-		Fish = require('./fish.js');
+		Fish = require('modules/fish.js');
 		await Fish.loadFish(['Bluegill', 'Bullhead Catfish', 'Pickerel', 'Channel Catfish', 'Lake Sturgeon', 'Longnose Gar', 'Largemouth Bass', 'Muskie', 'Northern Pike', 'Perch', 'Redfin Pickerel', 'Rock Bass', 'Smallmouth Bass', 'Sockeye Salmon', 'Steelhead Salmon']);
 		//loading the fish by hand is bad. fix this laater.
 	}
