@@ -43,20 +43,20 @@ var Fish;
 	//note to self: make a module init function instead of this
 	if (_server) {
 		console.log("Server module enabled.");
-		webserver = require('modules/server.js');
+		webserver = require('./server.js');
 	}
 	if (_spotify) {
 		console.log("Music module enabled.");
-		SongFetch = require('modules/spotify.js');
+		SongFetch = require('./spotify.js');
 	}
 	if (_points) {
 		console.log("Points module enabled.");
-		Points = require('modules/points.js');
+		Points = require('./points.js');
 		await Points.readPoints();
 	}
 	if (_fish) {
 		console.log("Fishing module enabled.");
-		Fish = require('modules/fish.js');
+		Fish = require('./fish.js');
 		await Fish.loadFish(['Bluegill', 'Bullhead Catfish', 'Pickerel', 'Channel Catfish', 'Lake Sturgeon', 'Longnose Gar', 'Largemouth Bass', 'Muskie', 'Northern Pike', 'Perch', 'Redfin Pickerel', 'Rock Bass', 'Smallmouth Bass', 'Sockeye Salmon', 'Steelhead Salmon']);
 		//loading the fish by hand is bad. fix this laater.
 	}
