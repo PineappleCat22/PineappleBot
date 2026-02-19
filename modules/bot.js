@@ -57,8 +57,9 @@ var Fish;
 	if (_fish) {
 		console.log("Fishing module enabled.");
 		Fish = require('./fish.js');
-		await Fish.loadFish(['Bluegill', 'Bullhead Catfish', 'Pickerel', 'Channel Catfish', 'Lake Sturgeon', 'Longnose Gar', 'Largemouth Bass', 'Muskie', 'Northern Pike', 'Perch', 'Redfin Pickerel', 'Rock Bass', 'Smallmouth Bass', 'Sockeye Salmon', 'Steelhead Salmon']);
+		await Fish.loadFish(CONFIG.FishList);
 		//loading the fish by hand is bad. fix this laater.
+		await Fish.loadModifiers()
 	}
 })();
 

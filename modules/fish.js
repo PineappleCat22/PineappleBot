@@ -1,24 +1,21 @@
-//uhhhh.
-//1 in 10 dice roll
-//pick a random fish from an array
-//maybe another 1 in 100 for a modifier?
-//make it a dict so i can assign fishname => value.
-//and another one that stores usernames and lastfish datetime (unix timestamp?)
-//it should only let you fish after x time from lastfish.
-//*smokes blunt* what if... the fish values CHANGED. EVERY DAY.
+//this file is probably the worst piece of written code ever. im so so sorry.
 
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 var CONFIG = require('../config.json');
 const _verbose = CONFIG.Verbose;
+const _points = CONFIG.PointsModule;
+var Points = require('./points.js');
 import fs from 'fs';
 import csv from 'fast-csv';
 import { finished } from 'stream/promises';
+import { indefiniteArticle } from './indefinite-article.js';
 
 const fishValues = new Map()
 const lastFish = new Map()
 const fishArray = new Array()
 const fishMultipliers = new Map() // ALL THE MAPS.
+const multArray = new Array()
 var fishWeight
 var fishAdditive = 5
 var fishValue
@@ -27,27 +24,79 @@ var fishValue
 
 async function loadFish(fishList) {
 	for (var i in fishList) {
-		fishValues.set(fishList[i], Math.random() * 10 + 1)
+		fishValues.set(fishList[i], Math.random() * 10 + 50)
 		fishArray[i] = fishList[i]
 	}
 }
 
 async function loadModifiers() {
-
-}
+    if (_verbose) {
+        console.log("FISH: Fetching modifier data from fishmods.csv...")
+    }
+    const data = fs.createReadStream('./data/fishmods.csv')
+        .pipe(csv.parse())
+        .on('error', error => {
+            console.error("FISH: Fetching fishmods from fishmods.csv threw error.")
+            console.error(error)
+        })
+        .on('data', row => {
+            if (_verbose) {
+                console.log(`FISH: ROW=${row[0].toString()}, ${row[1]}`)
+                fishMultipliers.set(row[0].toString(), row[1]) // <== put data into dictionary, row object can be accessed like an array (start at 0)
+                multArray.push(row[0])
+            }}) 
+        .on('end', rowCount => {
+            if (_verbose) {
+                console.log(`FISH: Parsed ${rowCount} rows`)
+                console.log(fishMultipliers)
+            }
+        })};
 
 //REMEMBER THIS IS ASYNC. WE NEED TO AWAIT IT OR THE RESPONSE IS A PROMISE{}
 async function catchFish(username) {
-	if (Math.floor(Math.random() * 5) == 4) {
-		var i = Math.floor(Math.random() * fishArray.length)
-		fishWeight = Math.floor(Math.random() * 1000) / 100 
-		fishValue = Math.floor(fishValues.get(fishArray[i]) * fishWeight + fishAdditive)
+	if (randNumber(5) == 4) {
+        var multString = ""
+		var fishIndex = randNumber(fishArray.length)
+        var multIndex
 
-		return(username + " caught a " + fishArray[i] + " weighing " + fishWeight + " lbs, worth " + fishValue)
-	}
+		fishWeight = randNumber(1000) / 100 //calculate the weight
+		fishValue = Math.floor(
+            fishValues.get(fishArray[fishIndex]) 
+            * fishWeight 
+            + fishAdditive)
+
+        if (randNumber(100) == 33) {
+            multIndex = randNumber(multArray.length)
+            fishValue = fishValue * fishMultipliers.get(multArray[multIndex])
+            multString += multArray[multIndex] + " "
+            console.log(fishValue)
+
+            if (randNumber(100) == 33) {
+                multIndex = randNumber(multArray.length)
+                fishValue = fishValue * fishMultipliers.get(multArray[multIndex])
+                multString += multArray[multIndex] + " "
+                console.log(fishValue)
+
+                if (randNumber(100) == 33) {
+                    multIndex = randNumber(multArray.length)
+                    fishValue = fishValue * fishMultipliers.get(multArray[multIndex])
+                    multString += multArray[multIndex] + " "
+                    console.log(fishValue)
+                } // if you have super luck, you can get three mults!
+            }
+        }
+        console.log(Points.addPoints(username, fishValue))
+        //im installing a package just to make sure i use the right article here. god.
+        //a special thanks to Rodrigo Neri.
+		return(username + " caught " + indefiniteArticle(multString + fishArray[fishIndex]) + " " + multString + fishArray[fishIndex] + " weighing " + fishWeight + " lbs, worth " + Math.floor(fishValue) + " CrustCoin.")
+    }
 	else {
 		return(username + " didn't catch any fish. (cooldown 10 minutes)")
 	}
 }
 
-export { loadFish, catchFish}
+function randNumber(max) {
+    return Math.floor(Math.random() * max)
+}
+
+export { loadFish, catchFish, loadModifiers}

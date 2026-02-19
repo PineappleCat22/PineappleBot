@@ -22,9 +22,12 @@ Features:
 	- [ ] offline/online mode
 	- [ ] fish
 		- [x] fishing
-		- [ ] get points from the fish
-		- [ ] fish modifiers
+		- [x] get points from the fish
+		- [x] fish modifiers
+		- [x] verbose fish logging
+		- [ ] cooldown
 		- [ ] rare fish events?
+		- [x] load fish from config
 	- [ ] malt's bot is kinda cool...
 	- [ ] ranks? lifetime points?
 - [ ] Mediashare
