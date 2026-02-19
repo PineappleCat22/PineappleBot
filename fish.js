@@ -25,7 +25,7 @@ var fishMultiplier = 2
 
 async function loadFish(fishList) {
 	for (var i in fishList) {
-		fishValues.set(fishList[i], Math.random() * 10)
+		fishValues.set(fishList[i], Math.random() * 10 + 1)
 		fishArray[i] = fishList[i]
 	}
 }

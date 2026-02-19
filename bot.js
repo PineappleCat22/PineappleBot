@@ -148,9 +148,9 @@ async function handleWebSocketMessage(data) {
 		case 'notification': // An EventSub notification has occurred, such as channel.chat.message
 			switch (data.metadata.subscription_type) {
 				case 'channel.chat.message':
-					console.log(`MSG #${data.payload.event.broadcaster_user_login} <${data.payload.event.chatter_user_login}> ${data.payload.event.message.text}`);
+					console.log(`MSG #${data.payload.event.broadcaster_user_login} <${data.payload.event.chatter_user_name}> ${data.payload.event.message.text}`);
 
-					console.log(Points.addPoints(data.payload.event.chatter_user_login, 10)); //YOU GET POINTS!
+					console.log(Points.addPoints(data.payload.event.chatter_user_name, 10)); //YOU GET POINTS!
 
 					let command = parseCommand(data.payload.event.message.text) //just assign it so we dont have to keep fucking parsing it
 					//handle undef output from parseCommand
@@ -174,7 +174,7 @@ async function handleWebSocketMessage(data) {
 							case 'points':
 								if (_points) {
 									if (command.args.length == 0) {
-										sendChatMessage(Points.getPoints(data.payload.event.chatter_user_login))
+										sendChatMessage(Points.getPoints(data.payload.event.chatter_user_name))
 									}
 									else if (command.args.length == 1) {
 										sendChatMessage(Points.getPoints(command.args[0].toLowerCase()))
@@ -182,12 +182,14 @@ async function handleWebSocketMessage(data) {
 								}
 								break;
 							case 'fish':
-								sendChatMessage(await Fish.catchFish(data.payload.event.chatter_user_login));
+								if (_fish) {
+									sendChatMessage(await Fish.catchFish(data.payload.event.chatter_user_name));
+								}
 								break;
 						}
 
 						//new switch case for admin commands
-						if (data.payload.event.chatter_user_login.toLowerCase() == ADMIN) {
+						if (data.payload.event.chatter_user_name.toLowerCase() == ADMIN) {
 							switch (command.cmd) {
 								case 'addpoints':
 									if (_points) {
