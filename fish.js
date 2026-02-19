@@ -9,7 +9,7 @@
 
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-var CONFIG = require('./config.json');
+var CONFIG = require('../config.json');
 const _verbose = CONFIG.Verbose;
 import fs from 'fs';
 import csv from 'fast-csv';
@@ -31,6 +31,11 @@ async function loadFish(fishList) {
 	}
 }
 
+async function loadModifiers() {
+
+}
+
+//REMEMBER THIS IS ASYNC. WE NEED TO AWAIT IT OR THE RESPONSE IS A PROMISE{}
 async function catchFish(username) {
 	var i = Math.floor(Math.random() * fishArray.length)
 	fishWeight = Math.floor(Math.random() * 1000) / 100 

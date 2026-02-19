@@ -3,7 +3,7 @@ import csv from 'fast-csv';
 import { finished } from 'stream/promises';
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
-var CONFIG = require('./config.json');
+var CONFIG = require('../config.json');
 const _verbose = CONFIG.Verbose;
 
 //all my imports are inconsistent because i dont know what im doing
@@ -78,7 +78,7 @@ async function readPoints() {
     }
 
     try {
-        await fs.promises.copyFile('points.csv', 'points.bak');
+        await fs.promises.copyFile('./data/points.csv', './data/points.bak');
     }
     catch (err) {
         console.error("POINTS: Error while backing up points.csv!");
@@ -86,7 +86,7 @@ async function readPoints() {
             if (_verbose) {
                 console.log("POINTS: points.csv not found. Creating empty file...")
             }
-            fs.writeFileSync('points.csv','');
+            fs.writeFileSync('./data/points.csv','');
         }
         else {
             console.error(err);
@@ -94,7 +94,7 @@ async function readPoints() {
     }
 
     console.log("POINTS: Fetching data from points.csv...")
-    const data = fs.createReadStream('points.csv')
+    const data = fs.createReadStream('./data/points.csv')
         .pipe(csv.parse())
         .on('error', error => {
             console.error("POINTS: Fetching points from points.csv threw error.")
@@ -119,7 +119,7 @@ async function readPoints() {
 async function savePoints() {
     console.log("POINTS: Saving points...")
     try {
-        await fs.promises.writeFile('points.csv', "");
+        await fs.promises.writeFile('./data/points.csv', "");
     }
     catch (err) {
         console.error("POINTS: Error while saving points!");

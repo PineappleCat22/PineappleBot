@@ -7,7 +7,7 @@ TODO: figure out how to update config files with new keys
 import { createRequire } from 'module';
 const require = createRequire(import.meta.url);
 import WebSocket from 'ws'; 
-var CONFIG = require('./config.json');
+var CONFIG = require('../config.json');
 
 const BOT_USER_ID = CONFIG.BOT_ID; 
 var OAUTH_TOKEN = CONFIG.OAUTH_TOKEN; 
