@@ -19,7 +19,8 @@ const fishValues = new Map()
 const lastFish = new Map()
 const fishArray = new Array()
 var fishWeight
-var fishMultiplier = 2
+var fishAdditive = 5
+var fishValue
 
 //TODO: VERBOSE LOGGING
 
@@ -32,8 +33,9 @@ async function loadFish(fishList) {
 
 async function catchFish(username) {
 	var i = Math.floor(Math.random() * fishArray.length)
-	fishWeight = Math.floor(Math.random() * 1000) / 100
-	return(username + " caught a " + fishArray[i] + " weighing " + fishWeight + " lbs, worth " + Math.floor(fishValues.get(fishArray[i]) * fishWeight * fishMultiplier))
+	fishWeight = Math.floor(Math.random() * 1000) / 100 
+	fishValue = Math.floor(fishValues.get(fishArray[i]) * fishWeight + fishAdditive)
+	return(username + " caught a " + fishArray[i] + " weighing " + fishWeight + " lbs, worth " + fishValue)
 }
 
 export { loadFish, catchFish}
