@@ -18,7 +18,11 @@ Features:
 - [ ] steal more features from other bots
 	- [ ] cookies?
 	- [ ] offline/online mode
-	- [ ] fish?
+	- [ ] fish
+		- [x] fishing
+		- [ ] get points from the fish
+		- [ ] fish modifiers
+		- [ ] rare fish events?
 	- [ ] malt's bot is kinda cool...
 	- [ ] ranks? lifetime points?
 - [ ] Mediashare
