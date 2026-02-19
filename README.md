@@ -4,7 +4,9 @@ PineappleBot is a bot I made because I am really cool and also awesome
 
 this thing is provided as-is!!!!!! just the code, no bot user. you can do that bit on your own, i believe in you!!!!!!!!!!!!!
 
-lowkey? the html system kinda sucks. you gotta reload all the browser elements when the bot starts up, or at least make sure its running when OBS starts. whatever. imma use it.
+is it the best bot code-wise? god no, because i made it in nodejs. this thing is a rat's nest man! javascript was never meant to be used like this!
+
+is it the best bot feature wise? be the judge of that yourself. I just made it because I saw a bunch of junk missing from other bots.
 
 Features:
 - you can pet jhona
