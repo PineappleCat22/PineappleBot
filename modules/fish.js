@@ -18,6 +18,7 @@ import { finished } from 'stream/promises';
 const fishValues = new Map()
 const lastFish = new Map()
 const fishArray = new Array()
+const fishMultipliers = new Map() // ALL THE MAPS.
 var fishWeight
 var fishAdditive = 5
 var fishValue
@@ -37,10 +38,16 @@ async function loadModifiers() {
 
 //REMEMBER THIS IS ASYNC. WE NEED TO AWAIT IT OR THE RESPONSE IS A PROMISE{}
 async function catchFish(username) {
-	var i = Math.floor(Math.random() * fishArray.length)
-	fishWeight = Math.floor(Math.random() * 1000) / 100 
-	fishValue = Math.floor(fishValues.get(fishArray[i]) * fishWeight + fishAdditive)
-	return(username + " caught a " + fishArray[i] + " weighing " + fishWeight + " lbs, worth " + fishValue)
+	if (Math.floor(Math.random() * 5) == 4) {
+		var i = Math.floor(Math.random() * fishArray.length)
+		fishWeight = Math.floor(Math.random() * 1000) / 100 
+		fishValue = Math.floor(fishValues.get(fishArray[i]) * fishWeight + fishAdditive)
+
+		return(username + " caught a " + fishArray[i] + " weighing " + fishWeight + " lbs, worth " + fishValue)
+	}
+	else {
+		return(username + " didn't catch any fish. (cooldown 10 minutes)")
+	}
 }
 
 export { loadFish, catchFish}
