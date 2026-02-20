@@ -56,7 +56,7 @@ async function loadModifiers() {
 async function catchFish(username) {
     if (Date.now() < nextFish.get(username)) {
         let date = new Date(nextFish.get(username))
-        return("@" + username + " chill. You can fish again in " + Math.floor(((date.getTime() - Date.now()) / 1000) / 60) + " minutes.")
+        return("@" + username + " chill. You can fish again in " + Math.floor(((date.getTime() - Date.now()) / 1000) / 60) + " minutes, " + Math.floor(((date.getTime() - Date.now()) / 1000) % 60) + " seconds.")
     }
     else {
         if (randNumber(2) == 1) {
