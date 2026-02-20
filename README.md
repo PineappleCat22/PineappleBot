@@ -20,12 +20,12 @@ Features:
 - [ ] steal more features from other bots
 	- [ ] cookies?
 	- [ ] offline/online mode
-	- [ ] fish
+	- [x] fish
 		- [x] fishing
 		- [x] get points from the fish
 		- [x] fish modifiers
 		- [x] verbose fish logging
-		- [ ] cooldown
+		- [x] cooldown
 		- [ ] rare fish events?
 		- [x] load fish from config
 	- [ ] malt's bot is kinda cool...

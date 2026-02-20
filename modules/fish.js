@@ -12,7 +12,7 @@ import { finished } from 'stream/promises';
 import { indefiniteArticle } from './indefinite-article.js';
 
 const fishValues = new Map()
-const lastFish = new Map()
+const nextFish = new Map()
 const fishArray = new Array()
 const fishMultipliers = new Map() // ALL THE MAPS.
 const multArray = new Array()
@@ -54,45 +54,53 @@ async function loadModifiers() {
 
 //REMEMBER THIS IS ASYNC. WE NEED TO AWAIT IT OR THE RESPONSE IS A PROMISE{}
 async function catchFish(username) {
-	if (randNumber(5) == 4) {
-        var multString = ""
-		var fishIndex = randNumber(fishArray.length)
-        var multIndex
+    if (Date.now() < nextFish.get(username)) {
+        let date = new Date(nextFish.get(username))
+        return("@" + username + " chill. You can fish again in " + Math.floor(((date.getTime() - Date.now()) / 1000) / 60) + " minutes.")
+    }
+    else {
+        if (randNumber(2) == 1) {
+            var multString = ""
+		    var fishIndex = randNumber(fishArray.length)
+            var multIndex
 
-		fishWeight = randNumber(1000) / 100 //calculate the weight
-		fishValue = Math.floor(
-            fishValues.get(fishArray[fishIndex]) 
-            * fishWeight 
-            + fishAdditive)
+		    fishWeight = randNumber(1000) / 100 //calculate the weight
+		    fishValue = Math.floor(
+                fishValues.get(fishArray[fishIndex]) 
+                * fishWeight 
+                + fishAdditive)
 
-        if (randNumber(100) == 33) {
-            multIndex = randNumber(multArray.length)
-            fishValue = fishValue * fishMultipliers.get(multArray[multIndex])
-            multString += multArray[multIndex] + " "
-            console.log(fishValue)
-
-            if (randNumber(100) == 33) {
+            if (randNumber(10) == 5) {
                 multIndex = randNumber(multArray.length)
                 fishValue = fishValue * fishMultipliers.get(multArray[multIndex])
                 multString += multArray[multIndex] + " "
                 console.log(fishValue)
 
-                if (randNumber(100) == 33) {
+                if (randNumber(10) == 5) {
                     multIndex = randNumber(multArray.length)
                     fishValue = fishValue * fishMultipliers.get(multArray[multIndex])
                     multString += multArray[multIndex] + " "
                     console.log(fishValue)
-                } // if you have super luck, you can get three mults!
+
+                    if (randNumber(10) == 5) {
+                        multIndex = randNumber(multArray.length)
+                        fishValue = fishValue * fishMultipliers.get(multArray[multIndex])
+                        multString += multArray[multIndex] + " "
+                        console.log(fishValue)
+                    } // if you have super luck, you can get three mults!
+                }
             }
+            nextFish.set(username, Date.now() + 600000)
+            console.log(Points.addPoints(username, fishValue))
+            //im installing a package just to make sure i use the right article here. god.
+            //a special thanks to Rodrigo Neri.
+		    return(username + " caught " + indefiniteArticle(multString + fishArray[fishIndex]) + " " + multString + fishArray[fishIndex] + " weighing " + fishWeight + " lbs, worth " + Math.floor(fishValue) + " CrustCoin. (10 minute cooldown.)")
         }
-        console.log(Points.addPoints(username, fishValue))
-        //im installing a package just to make sure i use the right article here. god.
-        //a special thanks to Rodrigo Neri.
-		return(username + " caught " + indefiniteArticle(multString + fishArray[fishIndex]) + " " + multString + fishArray[fishIndex] + " weighing " + fishWeight + " lbs, worth " + Math.floor(fishValue) + " CrustCoin.")
+        else {
+            nextFish.set(username, Date.now() + 300000)
+		    return(username + " didn't catch any fish. (5 minute cooldown.)")
+	    }
     }
-	else {
-		return(username + " didn't catch any fish. (cooldown 10 minutes)")
-	}
 }
 
 function randNumber(max) {
