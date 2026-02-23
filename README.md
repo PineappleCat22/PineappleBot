@@ -18,7 +18,6 @@ Features:
 ### roadmap
 - [x] THE BOT DOESNT ACTUALLY CHECK IF THE MODULE IS ENABLED. AAAAAAAAAAAA
 - [ ] steal more features from other bots
-	- [ ] cookies?
 	- [ ] offline/online mode
 	- [x] fish
 		- [x] fishing
