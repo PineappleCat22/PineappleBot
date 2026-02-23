@@ -11,12 +11,11 @@ const _verbose = CONFIG.Verbose;
 let petStatus = 0;
 let data;
 
-//what the fuck do you mean i have to add my own sleep function
+//sleep
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// it still shocks me that this is how you make an api. idk i guess i thought there would be a more refined way.
 const server = http.createServer((req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
@@ -24,7 +23,7 @@ const server = http.createServer((req, res) => {
 
     const { method, url } = req;
 
-    if (req.url == '/events') { //yo FUCK websockets and FUCK having correct headers
+    if (req.url == '/events') { //doing this so that i dont have to make websockets
         sse.init(req, res);
         return;
     }
@@ -59,16 +58,12 @@ const server = http.createServer((req, res) => {
         res.writeHead(200, { 'content-type': 'text/plain' });
         res.end("hello world!");
     }
-    else if (req.url == '/petstatus') { // rework this logic into SSE.
+    else if (req.url == '/petstatus') {
         if (method == 'POST') {
             sse.send({ "content": "pet" });
             if (_verbose) {
                 console.log('SERVER: Pet event sent');
             }
-            //convert to SSE steps:
-            //send an sse event to /events here
-            //add a listener on pet.html to /events
-            //that should be it?
         }
         res.writeHead(200, { 'content-type': 'text/plain' });
         res.end(petStatus.toString());
@@ -93,9 +88,6 @@ const server = http.createServer((req, res) => {
             res.end('500: INTERNAL SERVER ERROR');
         });
     }
-    //code immediately exits if you try accessing a nonexistent file.
-    //soooooo dont?
 })
 console.log("SERVER: Listening on port 5000")
 server.listen(5000);
-//dawg i have no idea if this will work on the server

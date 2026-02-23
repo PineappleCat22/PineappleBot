@@ -9,10 +9,11 @@ is it the best bot code-wise? god no, because i made it in nodejs. this thing is
 is it the best bot feature wise? be the judge of that yourself. I just made it because I saw a bunch of junk missing from other bots.
 
 Features:
-- you can pet jhona
 - !song command that queries LastFM
-- a webserver for hosting HTML files, if thats what you need
-- spotify now playing thing
+- a webserver with a bunch of OBS modules
+	- spotify now playing thing
+	- media player (for alerts or just whenever)
+	- HyperCool Interactive Creature Petting Sim
 - points system
 
 ### roadmap
@@ -40,7 +41,7 @@ Features:
 	- [ ] media source blacklist
 	- [ ] check and support for gifs/images
 	- [ ] support for remote resources (imgur images, tenor gifs, youtube videos)
-	- [ ] BONUS! sse listener on pet.html
+	- [x] BONUS! sse listener on pet.html
 	- [ ] BONUS BONUS! maybe do something for text overflow?
 - [ ] Custom Commands
 	- [ ] Make CSV parser for commands
