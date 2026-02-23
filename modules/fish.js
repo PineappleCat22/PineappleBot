@@ -91,7 +91,9 @@ async function catchFish(username) {
                 }
             }
             nextFish.set(username, Date.now() + 600000)
-            console.log(Points.addPoints(username, fishValue))
+            if (_points) {
+                console.log(Points.addPoints(username, fishValue))
+            }
             //im installing a package just to make sure i use the right article here. god.
             //a special thanks to Rodrigo Neri.
 		    return(username + " caught " + indefiniteArticle(multString + fishArray[fishIndex]) + " " + multString + fishArray[fishIndex] + " weighing " + fishWeight + " lbs, worth " + Math.floor(fishValue) + " CrustCoin. (10 minute cooldown.)")
