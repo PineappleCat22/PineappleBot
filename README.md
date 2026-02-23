@@ -41,6 +41,8 @@ Features:
 	- [ ] media source blacklist
 	- [ ] check and support for gifs/images
 	- [ ] support for remote resources (imgur images, tenor gifs, youtube videos)
+	- [ ] cancel playing media
+		- [ ] maybe a better way than chat commands?
 	- [x] BONUS! sse listener on pet.html
 	- [ ] BONUS BONUS! maybe do something for text overflow?
 - [ ] Custom Commands

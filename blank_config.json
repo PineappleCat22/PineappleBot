@@ -3,15 +3,29 @@
   "BOT_ID": "",
   "CHAT_ID": "",
 
-  "ServerModule": true,
-  "MusicModule": true,
-  "PointsModule": true,
-  "Verbose": false,
-
-  "LASTFM_USER": "",
-
   "OAUTH_TOKEN": "",
   "REFRESH_TOKEN": "",
   "CLIENT_ID": "",
-  "CLIENT_SECRET": ""
+  "CLIENT_SECRET": "",
+
+  "ServerModule": true,
+
+  "MusicModule": true,
+  "LASTFM_USER": "",
+
+  "PointsModule": true,
+
+  "FishModule": true,
+  "FishList": ["Bluegill", "Bullhead Catfish", "Pickerel", "Channel Catfish", 
+			   "Lake Sturgeon", "Longnose Gar", "Largemouth Bass", "Muskie", 
+			   "Northern Pike", "Perch", "Redfin Pickerel", "Rock Bass", 
+			   "Smallmouth Bass", "Sockeye Salmon", "Steelhead Salmon"],
+
+  "Verbose": false,
+
+ 
+
+
+
+  
 }
