@@ -30,7 +30,7 @@ Features:
 		- [x] load fish from config
 	- [ ] malt's bot is kinda cool...
 	- [ ] ranks? lifetime points?
-- [ ] Mediashare
+- [x] Mediashare
 	- [x] Create an html container for video + caption
 	- [x] handler to receive videos via post req
 	- [x] send videos to client instance (eventsource)
@@ -38,13 +38,11 @@ Features:
 	- [x] the actual code that sends the media link and caption
 		- [x] more than one word in the caption
 	- [x] sanitize media input!!!
-	- [ ] media source blacklist
-	- [ ] check and support for gifs/images
-	- [ ] support for remote resources (imgur images, tenor gifs, youtube videos)
-	- [ ] cancel playing media
-		- [ ] maybe a better way than chat commands?
-	- [x] BONUS! sse listener on pet.html
-	- [ ] BONUS BONUS! maybe do something for text overflow?
+	- [x] random alert video
+	- [ ] side content
+		- [ ] support for caption no video
+		- [x] BONUS! sse listener on pet.html
+		- [ ] BONUS BONUS! maybe do something for text overflow?
 - [ ] Custom Commands
 	- [ ] Make CSV parser for commands
 	- [ ] parse CSV into dictionary
@@ -60,3 +58,8 @@ Features:
 - [ ] activate/deactivate modules
 - [ ] developer environment to test commands????
 - [ ] documentation
+- [ ] not planned
+	- [ ] support for remote resources (imgur images, tenor gifs, youtube videos)
+	- [ ] media source blacklist
+	- [ ] cancel playing media
+	- [x] check and support for gifs/images (SUPPORT EXISTS, NOT IMPLEMENTED.)

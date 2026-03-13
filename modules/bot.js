@@ -153,6 +153,14 @@ async function handleWebSocketMessage(data) {
 
 					console.log(Points.addPoints(data.payload.event.chatter_user_name, 10)); //YOU GET POINTS!
 
+					let response = await fetch('http://localhost:5000/mediaplayer', {
+						method: 'POST',
+						body: JSON.stringify({
+							url: "random",
+							caption: data.payload.event.message.text
+						})
+					})
+
 					let command = parseCommand(data.payload.event.message.text) //just assign it so we dont have to keep fucking parsing it
 					//handle undef output from parseCommand
 					if (command != undefined) {

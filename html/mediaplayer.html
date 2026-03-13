@@ -2,32 +2,46 @@
 <head>
     <style>
         .media {
-        max-width: 100%; 
-        max-height: 80%;
-        object-fit: contain
+            max-width: 100%; 
+            max-height: 80%;
+            object-fit: contain
         }
 
         .caption {
-        text-align: center;
-        height:20%;
-        font-family: 'VCR OSD Mono';
-        font-size:30px;
-        margin: 0;
-        color: white;
+            text-align: center;
+            height: 20%;
+            font-family: 'VCR OSD Mono';
+            font-size: 30px;
+            margin: 0;
+            color: white;
         }
 
         .container {
-        height:500px; 
-        width:500px; 
-        display:flex; 
-        flex-direction:column;
+            height:500px; 
+            width:500px; 
+            display:flex; 
+            flex-direction:column;
+        }
+
+        /* we are getting weird with it */
+        #player:not([src]),
+        #player[src=""] {
+            height: 0;
+            display: block;
+        }
+
+        #player[src]:not([src=""]) {
+            height: auto;
+            width: 100%; 
         }
     </style>
 </head>
 <body>
     <div class="container">
-    <video src="" id="player" class="media"></video>
-    <p id="caption" class="caption"></p>
+        <video src="" id="player" class="media"></video> 
+        <img src="" id="frame" class="media" />
+        <div class="caption"><p id="caption" style="background-color: black; width: auto;"></p></div>
+        
     </div>
     <script>
     var player = document.getElementById("player"); 

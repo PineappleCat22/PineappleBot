@@ -10,10 +10,16 @@ var sse = new SSE({"content": "CONN_TEST"});
 const _verbose = CONFIG.Verbose;
 let petStatus = 0;
 let data;
+const videos = new Array()
 
 //sleep
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+//random number generator
+function randNumber(max) {
+    return Math.floor(Math.random() * max)
 }
 
 const server = http.createServer((req, res) => {
@@ -44,10 +50,20 @@ const server = http.createServer((req, res) => {
                 //i cant make a try-catch block for this for some reason it breaks stuff.
                 //dont pass wrong data pls!
 
+                if (data.url == "random") {
+                    if (_verbose) {
+                        console.log("SERVER: Selecting a random video for alert.");
+                    }
+                    sse.send({ "content": "media", "media": "alerts/" + videos[randNumber(videos.length)], "caption": data.caption });
+                    res.end();
+                    return;
+                }
+
                 if (data.url == undefined) {
                     console.log("SERVER: Received data is missing URL!")
                     res.writeHead(400, { 'Content-Type': 'text/plain' });
                     res.end('400: Bad Request!');
+                    return;
                 }
                 sse.send({"content": "media", "media": data.url, "caption": data.caption});
                 res.end();
@@ -89,5 +105,16 @@ const server = http.createServer((req, res) => {
         });
     }
 })
+
+fs.readdir("html/alerts/", (err, files) => {
+    if (err)
+        console.log(err);
+    else {
+        files.forEach(file => {
+            videos.push(file);
+        })
+    }
+})
+
 console.log("SERVER: Listening on port 5000")
 server.listen(5000);
