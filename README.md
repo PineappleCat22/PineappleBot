@@ -43,6 +43,13 @@ Features:
 		- [ ] support for caption no video
 		- [x] BONUS! sse listener on pet.html
 		- [ ] BONUS BONUS! maybe do something for text overflow?
+- [ ] utility stuff
+	- [ ] change things via SSE
+		- [ ] mediashare volume
+		- [ ] cancel mediashare
+	- [ ] make the bot ignore commands (prefix !)
+	- [ ] make the bot ignore itself
+	- [ ] support for multiple admins and multiple ignored users
 - [ ] Custom Commands
 	- [ ] Make CSV parser for commands
 	- [ ] parse CSV into dictionary
