@@ -1,5 +1,6 @@
 {
   "ADMIN": "",
+  "BOT": "",
   "BOT_ID": "",
   "CHAT_ID": "",
 
@@ -16,10 +17,23 @@
   "PointsModule": true,
 
   "FishModule": true,
-  "FishList": ["Bluegill", "Bullhead Catfish", "Pickerel", "Channel Catfish", 
-			   "Lake Sturgeon", "Longnose Gar", "Largemouth Bass", "Muskie", 
-			   "Northern Pike", "Perch", "Redfin Pickerel", "Rock Bass", 
-			   "Smallmouth Bass", "Sockeye Salmon", "Steelhead Salmon"],
+  "FishList": [
+    "Bluegill",
+    "Bullhead Catfish",
+    "Pickerel",
+    "Channel Catfish",
+    "Lake Sturgeon",
+    "Longnose Gar",
+    "Largemouth Bass",
+    "Muskie",
+    "Northern Pike",
+    "Perch",
+    "Redfin Pickerel",
+    "Rock Bass",
+    "Smallmouth Bass",
+    "Sockeye Salmon",
+    "Steelhead Salmon"
+  ],
 
   "Verbose": false
 }

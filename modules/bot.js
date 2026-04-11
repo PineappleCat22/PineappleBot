@@ -16,6 +16,7 @@ const CLIENT_ID = CONFIG.CLIENT_ID;
 const CHAT_CHANNEL_USER_ID = CONFIG.CHAT_ID; 
 const CLIENT_SECRET = CONFIG.CLIENT_SECRET;
 const ADMIN = CONFIG.ADMIN;
+const BOTNAME = CONFIG.BOT;
 const LASTFM_USER = CONFIG.LASTFM_USER;
 const EVENTSUB_WEBSOCKET_URL = 'wss://eventsub.wss.twitch.tv/ws';
 
@@ -151,15 +152,19 @@ async function handleWebSocketMessage(data) {
 				case 'channel.chat.message':
 					console.log(`MSG #${data.payload.event.broadcaster_user_login} <${data.payload.event.chatter_user_name}> ${data.payload.event.message.text}`);
 
-					console.log(Points.addPoints(data.payload.event.chatter_user_name, 10)); //YOU GET POINTS!
-
-					let response = await fetch('http://localhost:5000/mediaplayer', {
+					/*let response = await fetch('http://localhost:5000/mediaplayer', {
 						method: 'POST',
 						body: JSON.stringify({
 							url: "random",
 							caption: data.payload.event.message.text
 						})
-					})
+					})*/ //every message sends an alert (BAD!)
+
+					if (data.payload.event.chatter_user_name == BOTNAME.toLowerCase) { 
+						break; //ignore self
+					}
+
+					console.log(Points.addPoints(data.payload.event.chatter_user_name, 10));
 
 					let command = parseCommand(data.payload.event.message.text) //just assign it so we dont have to keep fucking parsing it
 					//handle undef output from parseCommand
@@ -198,7 +203,7 @@ async function handleWebSocketMessage(data) {
 						}
 
 						//new switch case for admin commands
-						if (data.payload.event.chatter_user_name.toLowerCase() == ADMIN) {
+						if (data.payload.event.chatter_user_name.toLowerCase() == ADMIN.toLowerCase) {
 							switch (command.cmd) {
 								case 'addpoints':
 									if (_points) {
