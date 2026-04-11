@@ -60,7 +60,7 @@ Features:
 	- [ ] delete users from points dict
 	- [ ] ban/blacklist users from receiving points
 	- [ ] delete all ur points on chat ban fuck you
-- [ ] blank music widget when music is not playing
+- [x] blank music widget when music is not playing
 - [ ] refetch oauth when expired
 	- [ ] and save it
 - [ ] scheduled functions (data backup every hour, refetch auth)
