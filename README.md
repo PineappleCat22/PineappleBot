@@ -18,6 +18,9 @@ Features:
 
 ### roadmap
 - [x] THE BOT DOESNT ACTUALLY CHECK IF THE MODULE IS ENABLED. AAAAAAAAAAAA
+- [ ] rework !pet
+	- [ ] variable name
+	- [ ] variable image? (what)
 - [ ] steal more features from other bots
 	- [ ] offline/online mode
 	- [x] fish
@@ -45,10 +48,9 @@ Features:
 		- [ ] BONUS BONUS! maybe do something for text overflow?
 - [ ] utility stuff
 	- [ ] change things via SSE
-		- [ ] mediashare volume
+		- [x] mediashare volume (you can do this via obs)
 		- [ ] cancel mediashare
-	- [ ] make the bot ignore commands (prefix !)
-	- [ ] make the bot ignore itself
+	- [x] make the bot ignore itself
 	- [ ] support for multiple admins and multiple ignored users
 - [ ] Custom Commands
 	- [ ] Make CSV parser for commands

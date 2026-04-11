@@ -160,7 +160,7 @@ async function handleWebSocketMessage(data) {
 						})
 					})*/ //every message sends an alert (BAD!)
 
-					if (data.payload.event.chatter_user_name == BOTNAME.toLowerCase) { 
+					if (data.payload.event.chatter_user_name == BOTNAME.toLowerCase()) { 
 						break; //ignore self
 					}
 
@@ -203,7 +203,7 @@ async function handleWebSocketMessage(data) {
 						}
 
 						//new switch case for admin commands
-						if (data.payload.event.chatter_user_name.toLowerCase() == ADMIN.toLowerCase) {
+						if (data.payload.event.chatter_user_name.toLowerCase() == ADMIN.toLowerCase()) {
 							switch (command.cmd) {
 								case 'addpoints':
 									if (_points) {
